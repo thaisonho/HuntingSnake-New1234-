@@ -332,6 +332,7 @@ void settingScreen()
             switch (handle)
             {
             case 'S': // if user pressed S or 'Arrow Down'
+                if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 if (settingSelection == 1) {
                     drawSoundOn(x_menu, y_menu, checkMusicEffect, FADED_TXT_RGB);
                     highlightedBox(19, 12, 9, 31, { 249, 232, 217 });
@@ -473,6 +474,7 @@ void settingScreen()
                 }
                 break;
             case 'W': // if user pressed W or 'Arrow Up'
+                if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 if (settingSelection == 1) {
                     drawSoundOn(x_menu, y_menu, checkMusicEffect, FADED_TXT_RGB);
                     highlightedBox(19, 12, 9, 31, { 249, 232, 217 });
@@ -595,6 +597,7 @@ void settingScreen()
                 break;
 
             case 13: // if user pressed 'Enter'
+                if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 if (settingSelection == 1) {
                     checkMusicEffect ^= 1;
                     drawSoundOn(x_menu, y_menu, checkMusicEffect, TXT_RGB);
@@ -815,16 +818,19 @@ void changeColorSubScreen()
             switch (handle)
             {
             case 'S':
+                if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 ++colorSelection;
                 if (colorSelection > 10) colorSelection = 1;
                 break;
             case 'W': // if user pressed W or 'Arrow Up'
+                if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 check = true;
                 --colorSelection;
                 if (colorSelection < 1) colorSelection = 10;
                 break;
 
             case 13: // if user pressed 'Enter'
+                if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
                 switch (colorSelection)
                 {
                 case 1:

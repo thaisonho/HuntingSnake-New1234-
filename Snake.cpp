@@ -204,6 +204,7 @@ void ProcessPause(HANDLE t) {
 				// move pointer down to the next button
 				y_pointer += 5;
 				selection++;
+				if (selection > 2) selection = 1;
 				// if pointer is out of range => set the pointer to the first position
 				if (y_pointer > y_menu + 5) y_pointer = y_menu;
 				GotoXY(x_pointer, y_pointer);
@@ -212,6 +213,7 @@ void ProcessPause(HANDLE t) {
 				// move pointer up to the next button
 				y_pointer -= 5;
 				selection--;
+				if (selection < 1) selection = 2;
 				// if pointer is out of range => set the pointer to the last button
 				if (y_pointer < y_menu) y_pointer = y_menu + 5;
 				GotoXY(x_pointer, y_pointer);
@@ -241,14 +243,22 @@ void PauseGame(HANDLE t)
 
 void ExitGame(HANDLE t)
 {
+
 	system("cls");
 	STATE = 0;
+
+	//ProcessExit(t);
+
 	TerminateThread(t, 0);
 
-	HWND consoleWindow = GetConsoleWindow();
-	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
+	if (ProcessExit(t)) {
 
-	ExitProcess(0);
+		HWND consoleWindow = GetConsoleWindow();
+		PostMessage(consoleWindow, WM_CLOSE, 0, 0);
+
+		ExitProcess(0);
+	}
+
 }
 
 void SaveGame(HANDLE t)
@@ -423,6 +433,73 @@ void ProcessWin()
 	GotoXY(35, 1);
 	draw_snakeWIN(0, 5, snakeWIN);
 	system("pause");
+}
+
+bool ProcessExit(HANDLE t)
+{
+	drawExitScreen(0, 0);
+
+	int x_menu = 65;
+	int y_menu = 11;
+
+	bool check = true, isEnter = false;
+	int selection = 1;
+
+	draw_rectangle(x_menu, y_menu, 2, 30, { 249, 232, 217 }, "YES", TXT_RGB, { 249, 232, 217 });
+	draw_rectangle(x_menu, y_menu + 5, 2, 30, { 0, 0, 0 }, "NO", TXT_RGB, { 249, 232, 217 });
+
+	unsigned int x_pointer = x_menu, y_pointer = y_menu;
+	unsigned int x_prev = x_menu, y_prev = y_menu;
+
+
+	while (true) {
+		GotoXY(x_pointer, y_pointer);
+		if (check) {
+			GotoXY(x_prev, y_prev);
+			draw_rectangle(x_prev, y_prev, 2, 30, TXT_RGB, { 249, 232, 217 });
+
+			x_prev = x_pointer;
+			y_prev = y_pointer;
+
+			highlightedBox(x_pointer, y_pointer, 2, 30, { 225, 0, 0 });
+
+			check = false;
+		}
+
+		if (_kbhit()) { // if any key is pressed
+			check = true;
+
+			char handle;
+			handle = toupper(_getch());
+			Sleep(50);
+
+			switch (handle)
+			{
+			case 'S':
+				y_pointer += 5;
+				selection++;
+				if (selection > 2) selection = 1;
+				if (y_pointer > y_menu + 5) y_pointer = y_menu;
+				GotoXY(x_pointer, y_pointer);
+				break;
+			case 'W':
+				y_pointer -= 5;
+				selection--;
+				if (selection < 1) selection = 2;
+				if (y_pointer < y_menu) y_pointer = y_menu + 5;
+				GotoXY(x_pointer, y_pointer);
+				break;
+			case 13:
+				if (selection == 1) {
+					return true;
+				}
+				if (selection == 2) {
+					return false;
+				}
+				break;
+			}
+		}
+	}
 }
 
 void ResetLoadData()
@@ -696,7 +773,7 @@ void DrawGateU1(int x, int y)
 	for (int i = -1; i <= 1; i++)
 	{
 		_bg_color = ExtractColor(ch, x + i, y, map);
-		_fg_color = { 105, 105, 105 };
+		_fg_color = { 0, 0, 128 };
 		changeTextColor(_fg_color, _bg_color);
 		//GotoXY(x + i, y);
 		Gate[cntGate++] = { x + i, y }; // Save coordinates of each point from gate to array
@@ -704,14 +781,14 @@ void DrawGateU1(int x, int y)
 	}
 
 	_bg_color = ExtractColor(ch, x - 1, y - 1, map);
-	_fg_color = { 105, 105, 105 };
+	_fg_color = { 0, 0, 128 };
 	changeTextColor(_fg_color, _bg_color);
 	//GotoXY(x - 1, y - 1);
 	Gate[cntGate++] = { x - 1, y - 1 };
 	GotoXY(x - 1, y - 1); cout << u8"\u058E";
 
 	_bg_color = ExtractColor(ch, x + 1, y - 1, map);
-	_fg_color = { 105, 105, 105 };
+	_fg_color = { 0, 0, 128 };
 	changeTextColor(_fg_color, _bg_color);
 	//GotoXY(x + 1, y - 1);
 	Gate[cntGate++] = { x + 1, y - 1 };
@@ -726,19 +803,19 @@ void DrawGateU2(int x, int y)
 	for (int i = -1; i <= 1; i++)
 	{
 		_bg_color = ExtractColor(ch, x + i, y, map);
-		_fg_color = { 105, 105, 105 };
+		_fg_color = { 0, 0, 128 };
 		changeTextColor(_fg_color, _bg_color);
 		Gate[cntGate++] = { x + i, y };
 		GotoXY(x + i, y); cout << u8"\u058E";
 	}
 	_bg_color = ExtractColor(ch, x - 1, y + 1, map);
-	_fg_color = { 105, 105, 105 };
+	_fg_color = { 0, 0, 128 };
 	changeTextColor(_fg_color, _bg_color);
 	Gate[cntGate++] = { x - 1, y + 1 };
 	GotoXY(x - 1, y + 1); cout << u8"\u058E";
 
 	_bg_color = ExtractColor(ch, x + 1, y + 1, map);
-	_fg_color = { 105, 105, 105 };
+	_fg_color = { 0, 0, 128 };
 	changeTextColor(_fg_color, _bg_color);
 	Gate[cntGate++] = { x + 1, y + 1 };
 	GotoXY(x + 1, y + 1); cout << u8"\u058E";
@@ -752,19 +829,19 @@ void DrawGateU3(int x, int y)
 	for (int i = -1; i <= 1; i++)
 	{
 		_bg_color = ExtractColor(ch, x, y + i, map);
-		_fg_color = { 105, 105, 105 };
+		_fg_color = { 0, 0, 128 };
 		changeTextColor(_fg_color, _bg_color);
 		Gate[cntGate++] = { x, y + i };
 		GotoXY(x, y + i); cout << u8"\u058E";
 	}
 	_bg_color = ExtractColor(ch, x + 1, y - 1, map);
-	_fg_color = { 105, 105, 105 };
+	_fg_color = { 0, 0, 128 };
 	changeTextColor(_fg_color, _bg_color);
 	Gate[cntGate++] = { x + 1, y - 1 };
 	GotoXY(x + 1, y - 1); cout << u8"\u058E";
 
 	_bg_color = ExtractColor(ch, x + 1, y + 1, map);
-	_fg_color = { 105, 105, 105 };
+	_fg_color = { 0, 0, 128 };
 	changeTextColor(_fg_color, _bg_color);
 	Gate[cntGate++] = { x + 1, y + 1 };
 	GotoXY(x + 1, y + 1); cout << u8"\u058E";
@@ -778,19 +855,19 @@ void DrawGateU4(int x, int y)
 	for (int i = -1; i <= 1; i++)
 	{
 		_bg_color = ExtractColor(ch, x, y + i, map);
-		_fg_color = { 105, 105, 105 };
+		_fg_color = { 0, 0, 128 };
 		changeTextColor(_fg_color, _bg_color);
 		Gate[cntGate++] = { x, y + i };
 		GotoXY(x, y + i); cout << u8"\u058E";
 	}
 	_bg_color = ExtractColor(ch, x - 1, y - 1, map);
-	_fg_color = { 105, 105, 105 };
+	_fg_color = { 0, 0, 128 };
 	changeTextColor(_fg_color, _bg_color);
 	Gate[cntGate++] = { x - 1, y - 1 };
 	GotoXY(x - 1, y - 1); cout << u8"\u058E";
 
 	_bg_color = ExtractColor(ch, x - 1, y + 1, map);
-	_fg_color = { 105, 105, 105 };
+	_fg_color = { 0, 0, 128 };
 	changeTextColor(_fg_color, _bg_color);
 	Gate[cntGate++] = { x - 1, y + 1 };
 	GotoXY(x - 1, y + 1); cout << u8"\u058E";
@@ -824,7 +901,7 @@ void ProcessGate() // void ProcessGate(int& LEVEL)
 
 		if (Snake_Size == 0) // When all the body of snake come into Gate -> Erase Gate and move to next level
 		{
-			PlaySound(TEXT("gate.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			if(checkMusicEffect) PlaySound(TEXT("gate.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			// Erase Gate
 			EraseGate();
 			GateDraw = false;
@@ -1144,13 +1221,13 @@ void MoveUp()
 	if (Snake[0].x == Food[ID_Food].x && Snake[0].y - 1 == Food[ID_Food].y) // If move to coordinates of Food -> Eat Food
 	{
 		EatFood(1);
-		PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if(checkMusicEffect) if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x == BonusFood[ID_BonusFood].x && Snake[0].y - 1 == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--) // Change the coordinates of Snake
@@ -1190,13 +1267,13 @@ void MoveDown()
 	if (Snake[0].x == Food[ID_Food].x && Snake[0].y + 1 == Food[ID_Food].y)
 	{
 		EatFood(1);
-		PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x == BonusFood[ID_BonusFood].x && Snake[0].y + 1 == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--)
@@ -1236,13 +1313,13 @@ void MoveRight()
 	if (Snake[0].x + 1 == Food[ID_Food].x && Snake[0].y == Food[ID_Food].y)
 	{
 		EatFood(1);
-		PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x + 1 == BonusFood[ID_BonusFood].x && Snake[0].y == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--)
@@ -1282,13 +1359,13 @@ void MoveLeft()
 	if (Snake[0].x - 1 == Food[ID_Food].x && Snake[0].y == Food[ID_Food].y)
 	{
 		EatFood(1);
-		PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x - 1 == BonusFood[ID_BonusFood].x && Snake[0].y == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--)
@@ -1328,7 +1405,7 @@ void AnimationDead()
 {
 	for (int i = 1; i <= 3; i++) {
 		DrawSnake(MSSV);//draw 
-		PlaySound(TEXT("beep.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if(checkMusicEffect) if(checkMusicEffect) PlaySound(TEXT("beep.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		fflush(stdout);
 		Sleep(450);
 		EraseOldSnake();//erase
@@ -1338,6 +1415,6 @@ void AnimationDead()
 	}
 	DrawSnake(MSSV);
 	Sleep(250);
-	PlaySound(TEXT("dead.wav"), NULL, SND_FILENAME | SND_SYNC);
+	if (checkMusicEffect) if(checkMusicEffect) PlaySound(TEXT("dead.wav"), NULL, SND_FILENAME | SND_SYNC);
 	EraseOldSnake();
 }
