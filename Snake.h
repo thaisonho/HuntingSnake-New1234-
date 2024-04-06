@@ -79,6 +79,7 @@ void StopThread();
 void ProcessPause(HANDLE t); // Function handle when pause game
 void ProcessDead(void);// Function handle when snake DEAD
 void ProcessWin(void); // Function handle when snake win
+bool ProcessExit(HANDLE t);
 void ResetData(void);// Function Intialize original data
 void ResetLoadData(void);
 
