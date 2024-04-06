@@ -321,4 +321,10 @@ void drawMiniMap3(int pos_x, int pos_y);
 
 void drawMiniMap4(int pos_x, int pos_y);
 
+void deleteMapText(int pos_x, int pos_y);
+
+void drawExitScreen(int pos_x, int pos_y);
+
+void drawNewRecord(int pos_x, int pos_y);
+
 void drawDemoSnake(int pos_x, int pos_y, RGBCOLOR _fgcolor, RGBCOLOR _bgcolor);
