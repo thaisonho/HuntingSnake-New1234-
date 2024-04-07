@@ -243,7 +243,6 @@ void PauseGame(HANDLE t)
 
 void ExitGame(HANDLE t)
 {
-
 	system("cls");
 	STATE = 0;
 

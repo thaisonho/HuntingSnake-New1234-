@@ -4,10 +4,6 @@ void setBackgroundColor(COLORREF color)
 {
 	CONSOLE_SCREEN_BUFFER_INFOEX sbInfoEx;
 	sbInfoEx.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
-
-	//sbInfoEx.dwSize.X = 120; // Set console width to 120 columns
-	//sbInfoEx.dwSize.Y = 29;
-
 	HANDLE consoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	GetConsoleScreenBufferInfoEx(consoleOut, &sbInfoEx);
 

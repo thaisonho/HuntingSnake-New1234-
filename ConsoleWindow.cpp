@@ -186,10 +186,11 @@ void mainMenu() {
     int x_menu = (getTermSize().x - 20) / 2 + 22,
         y_menu = (getTermSize().y - 4) / 2;
 
+
     // define variables use for navigate through the menu
 MENU:
     bool check = true, isEnter = false;
-    static int selection = 1, prev_selection = 4, next_selection = 2;
+    static int selection = 1, prev_selection = 6, next_selection = 2;
 
     drawMenuSnake(0, 0);
     Sleep(500);
@@ -216,11 +217,11 @@ MENU:
                 deleteArtMenu(x_menu, y_menu, selection);
 
                 ++selection;
-                if (selection > 4) selection = 1;
+                if (selection > 6) selection = 1;
                 prev_selection = selection - 1;
                 next_selection = selection + 1;
-                if (prev_selection == 0)   prev_selection = 4;
-                if (next_selection == 5)    next_selection = 1;
+                if (prev_selection == 0)   prev_selection = 6;
+                if (next_selection == 7)   next_selection = 1;
 
                 drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
                 drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
@@ -232,11 +233,11 @@ MENU:
                 deleteArtMenu(x_menu, y_menu, selection);
 
                 --selection;
-                if (selection < 1) selection = 4;
+                if (selection < 1) selection = 6;
                 prev_selection = selection - 1;
                 next_selection = selection + 1;
-                if (prev_selection == 0)   prev_selection = 4;
-                if (next_selection == 5)    next_selection = 1;
+                if (prev_selection == 0)   prev_selection = 6;
+                if (next_selection == 7)   next_selection = 1;
 
                 drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
                 drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
@@ -275,7 +276,8 @@ MENU:
         system("cls");
         goto MENU;
         break;
-    default:
+    case 6:
+        /*ExitGame(handle_thread_obj);*/
         break;
     }
     GotoXY(0, 0);

@@ -482,6 +482,18 @@ void deleteArtMenu(int pos_x, int pos_y, int option)
         GotoXY(pos_x, pos_y++); cout << u8"                                   ";
         GotoXY(pos_x, pos_y++); cout << u8"                                   ";
         break;
+    case 5:
+        GotoXY(pos_x, pos_y++); cout << u8"                                    ";
+        GotoXY(pos_x, pos_y++); cout << u8"                                    ";
+        GotoXY(pos_x, pos_y++); cout << u8"                                    ";
+        GotoXY(pos_x, pos_y++); cout << u8"                                    ";
+        break;
+    case 6:
+        GotoXY(pos_x, pos_y++); cout << u8"                 ";
+        GotoXY(pos_x, pos_y++); cout << u8"                 ";
+        GotoXY(pos_x, pos_y++); cout << u8"                 ";
+        GotoXY(pos_x, pos_y++); cout << u8"                 ";
+        break;
     }
 }
 
@@ -695,6 +707,18 @@ void drawMenu(int pos_x, int pos_y, int option, RGBCOLOR color)
         GotoXY(pos_x, pos_y++); cout << u8"█ ▄▄█ ▄▄█▄ ▄█▄ ▄██▄██ ▄▄▀█ ▄▄▄█ ▄▄█";
         GotoXY(pos_x, pos_y++); cout << u8"█▄▄▀█ ▄▄██ ███ ███ ▄█ ██ █ █▄▀█▄▄▀█";
         GotoXY(pos_x, pos_y++); cout << u8"█▄▄▄█▄▄▄██▄███▄██▄▄▄█▄██▄█▄▄▄▄█▄▄▄█";
+        break;
+    case 5:
+        GotoXY(pos_x, pos_y++); cout << u8"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄";
+        GotoXY(pos_x, pos_y++); cout << u8"█▄ ▄█ ██ █▄ ▄█▀▄▄▀█ ▄▄▀██▄██ ▄▄▀█ ██";
+        GotoXY(pos_x, pos_y++); cout << u8"██ ██ ██ ██ ██ ██ █ ▀▀▄██ ▄█ ▀▀ █ ██";
+        GotoXY(pos_x, pos_y++); cout << u8"██▄███▄▄▄██▄███▄▄██▄█▄▄█▄▄▄█▄██▄█▄▄█";
+        break;
+    case 6:
+        GotoXY(pos_x, pos_y++); cout << u8"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄";
+        GotoXY(pos_x, pos_y++); cout << u8"█ ▄▄█ █ ██▄██▄ ▄█";
+        GotoXY(pos_x, pos_y++); cout << u8"█ ▄▄█▀▄▀██ ▄██ ██";
+        GotoXY(pos_x, pos_y++); cout << u8"█▄▄▄█▄█▄█▄▄▄██▄██";
         break;
     }
 }
