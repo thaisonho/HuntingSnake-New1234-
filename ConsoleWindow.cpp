@@ -276,6 +276,11 @@ MENU:
         system("cls");
         goto MENU;
         break;
+    case 5:
+        draw_Tutorial(0, 0, Tutorial);
+        system("cls");
+        goto MENU;
+        break;
     case 6:
         /*ExitGame(handle_thread_obj);*/
         break;

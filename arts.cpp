@@ -993,3 +993,65 @@ void drawDemoSnake(int pos_x, int pos_y, RGBCOLOR _fgcolor, RGBCOLOR _bgcolor)
     changeTextColor();
 }
 
+void draw_Tutorial(int pos_x, int pos_y, std::string pic)
+{
+
+    SetConsoleOutputCP(CP_UTF8);
+    GotoXY(pos_x, pos_y);
+    for (auto i : pic) {
+        switch (i)
+        {
+        case '-':
+            changeTextColor({ 249, 232, 217 });
+            break;
+        default:
+            text_color(BG_COLOR, colorCode::WHITE);
+            break;
+        }
+        if (i > 32) cout << u8"\u2588";
+        else cout << i;
+    }
+
+    changeTextColor({ 0, 0, 0 }, { 249, 232, 217 });
+
+    GotoXY((120 - 63) / 2, pos_y + 1); cout << u8"████████╗██╗   ██╗████████╗ ██████╗ ██████╗ ██╗ █████╗ ██╗";
+    GotoXY((120 - 63) / 2, pos_y + 2); cout << u8"╚══██╔══╝██║   ██║╚══██╔══╝██╔═══██╗██╔══██╗██║██╔══██╗██║";
+    GotoXY((120 - 63) / 2, pos_y + 3); cout << u8"   ██║   ██║   ██║   ██║   ██║   ██║██████╔╝██║███████║██║";
+    GotoXY((120 - 63) / 2, pos_y + 4); cout << u8"   ██║   ██║   ██║   ██║   ██║   ██║██╔══██╗██║██╔══██║██║";
+    GotoXY((120 - 63) / 2, pos_y + 5); cout << u8"   ██║   ╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║██║  ██║███████╗";
+    GotoXY((120 - 63) / 2, pos_y + 6); cout << u8"   ╚═╝    ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝";
+
+
+    changeTextColor({ 0, 0, 0 }, { 249, 232, 217 });
+    GotoXY(pos_x + 20, pos_y + 9); cout << "HOW TO PLAY";
+    GotoXY(pos_x + 10, pos_y + 11); cout << "The player controls the snake to";
+    GotoXY(pos_x + 10, pos_y + 12); cout << "move around the game screen to eat";
+    GotoXY(pos_x + 10, pos_y + 13); cout << "food. Obstacles will appear forcing";
+    GotoXY(pos_x + 10, pos_y + 14); cout << "the player to move to avoid. The";
+    GotoXY(pos_x + 10, pos_y + 15); cout << "game includes "; changeTextColor({ 255,0,0 }, { 249, 232, 217 }), cout << "4 levels"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); cout << ", each level";
+    GotoXY(pos_x + 10, pos_y + 16); cout << "needs the player to eat enough 4";
+    GotoXY(pos_x + 10, pos_y + 17); cout << "foods to pass the next level, there";
+    GotoXY(pos_x + 10, pos_y + 18); cout << "will be "; changeTextColor({ 255,0,0 }, { 249, 232, 217 }), cout << "bonus food "; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); cout << "to increase the";
+    GotoXY(pos_x + 10, pos_y + 19); cout << "score and there are some "; changeTextColor({ 255,0,0 }, { 249, 232, 217 }), cout << "teleport "; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 });
+    GotoXY(pos_x + 10, pos_y + 20); changeTextColor({ 255,0,0 }, { 249, 232, 217 }), cout << "gates "; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); cout << "so the player can move in to";
+    GotoXY(pos_x + 10, pos_y + 21); cout << "go to the another location.";
+
+    GotoXY(pos_x + 90, pos_y + 9); cout << "BUTTON";
+
+    filled_rec(pos_x + 85, pos_y + 11, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 12); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "W"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 12); cout << "MOVE UP"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 14, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 15); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "S"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 15); cout << "MOVE DOWN"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 17, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 18); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "A"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 18); cout << "MOVE LEFT"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 20, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 21); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "D"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 21); cout << "MOVE RIGHT"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 23, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 24); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "U"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 24); cout << "PAUSE GAME"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 26, 1, 4, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 27); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "ESC"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 27); cout << "EXIT"; changeTextColor();
+
+    GotoXY(pos_x, 28); changeTextColor(TXT_RGB);
+    system("pause");
+    changeTextColor();
+}
+
