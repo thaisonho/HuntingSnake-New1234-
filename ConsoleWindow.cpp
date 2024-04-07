@@ -189,6 +189,7 @@ void mainMenu() {
 
     // define variables use for navigate through the menu
 MENU:
+    system("cls");
     bool check = true, isEnter = false;
     static int selection = 1, prev_selection = 6, next_selection = 2;
 
@@ -261,28 +262,28 @@ MENU:
     case 2:
         if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
         LoadGamePlayer(PlayerSnake1, id, LoadPlayer1);
-        system("cls");
         goto MENU;
         break;
     case 3:
         if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
         ScoreBoard(S1, PlayerSnake1, id);
-        system("cls");
         goto MENU;
         break;
     case 4:
         if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
         settingScreen();
-        system("cls");
         goto MENU;
         break;
     case 5:
         draw_Tutorial(0, 0, Tutorial);
-        system("cls");
         goto MENU;
         break;
     case 6:
         /*ExitGame(handle_thread_obj);*/
+        if (ProcessExit()) {
+            ExitGame();
+        }
+        goto MENU;
         break;
     }
     GotoXY(0, 0);

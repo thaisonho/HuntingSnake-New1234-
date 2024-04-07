@@ -71,6 +71,34 @@ int lev = 1; // Current level (Maximum is 5 levels)
 // EXTERN
 char ch[100][100];
 
+// Global variable to store the thread handle
+HANDLE g_ThreadHandle;
+
+// Function to set the thread handle
+void SetThreadHandle(HANDLE t) {
+    g_ThreadHandle = t;
+}
+
+// Function to exit the game
+void ExitGame() {
+    // Clear the console screen
+    system("cls");
+
+    // Set STATE to 0 (assuming STATE is a global variable)
+    STATE = 0;
+
+    // Terminate the thread using the stored handle
+    TerminateThread(g_ThreadHandle, 0);
+
+    // Get the handle of the console window
+    HWND consoleWindow = GetConsoleWindow();
+
+    // Post a close message to the console window
+    PostMessage(consoleWindow, WM_CLOSE, 0, 0);
+
+    // Exit the process
+    ExitProcess(0);
+}
 
 void StartGame(bool LoadSnake)
 {
@@ -135,8 +163,9 @@ void LoadGame()  // void LoadGame(int& lev)
 
 	while (true)
 	{
-		if (stop_thread)
+		if (stop_thread) {
 			break;
+		}
 
 		char temp = toupper(_getch()); // Get character from the keyboard (including 4 arrows, WASD, ...)
 
@@ -144,18 +173,21 @@ void LoadGame()  // void LoadGame(int& lev)
 		{
 			ResumeThread(handle_thread_obj);
 
-			if (temp == 'U') // 'P' Key to Pause Game
+			if (temp == 'U') // 'U' Key to Pause Game
 				PauseGame(handle_thread_obj);
-			else if (temp == 'Q') // 'Q' Key to Exit Game
-				ExitGame(handle_thread_obj);
-
 			if ((temp == 'W' || temp == 'S' || temp == 'A' || temp == 'D') && temp != CHAR_LOCK)
 			{
 				MOVING = temp; // Next movement of snake
 			}
 		}
 	}
-	
+
+	thread_obj.join();
+	for (int i = 0; i <= 28; ++i) {
+		changeTextColor(BG_RGB_2);
+		GotoXY(0, i); cout << "                                                                                                                        ";
+	}
+	changeTextColor();
 	return;
 }
 
@@ -241,25 +273,6 @@ void PauseGame(HANDLE t)
 	ProcessPause(t);
 }
 
-void ExitGame(HANDLE t)
-{
-	system("cls");
-	STATE = 0;
-
-	//ProcessExit(t);
-
-	TerminateThread(t, 0);
-
-	if (ProcessExit(t)) {
-
-		HWND consoleWindow = GetConsoleWindow();
-		PostMessage(consoleWindow, WM_CLOSE, 0, 0);
-
-		ExitProcess(0);
-	}
-
-}
-
 void SaveGame(HANDLE t)
 {
 	ExtractInfoPlayer(PlayerSnake, id, namePlayer);
@@ -269,7 +282,6 @@ void SaveGame(HANDLE t)
 	
 	mainMenu();
 }
-
 
 istream& operator>>(istream& inDev, Point& p)
 {
@@ -412,12 +424,7 @@ void ProcessDead()
 
 	STATE = 0; // DEAD
 	draw_snakeDEAD(0, 5, snakeDEAD);
-	//ResetData();
 
-	//draw_snakeDEAD(0, 5, "");
-	//draw_snakeDEAD(0, 5, snakeDEAD);
-
-	//drawMenuSnake(0, 0);
 }
 
 void StopThread()
@@ -434,7 +441,7 @@ void ProcessWin()
 	system("pause");
 }
 
-bool ProcessExit(HANDLE t)
+bool ProcessExit()
 {
 	drawExitScreen(0, 0);
 
