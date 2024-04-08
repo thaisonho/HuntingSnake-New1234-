@@ -183,11 +183,13 @@ void LoadGame()  // void LoadGame(int& lev)
 	}
 
 	thread_obj.join();
+	stop_thread = false;
 	for (int i = 0; i <= 28; ++i) {
 		changeTextColor(BG_RGB_2);
 		GotoXY(0, i); cout << "                                                                                                                        ";
 	}
 	changeTextColor();
+	Sleep(100);
 	return;
 }
 
@@ -201,7 +203,7 @@ void ProcessPause(HANDLE t) {
 	bool check = true, isEnter = false;
 	int selection = 1;
 
-	draw_rectangle(x_menu, y_menu, 2, 30, { 234, 222, 165 }, "PLAY", TXT_RGB, {253, 255, 154});
+	draw_rectangle(x_menu, y_menu, 2, 30, { 234, 222, 165 }, "CONTINUE", TXT_RGB, {253, 255, 154});
 
 	draw_rectangle(x_menu, y_menu + 5, 2, 30, { 234, 222, 165 }, "SAVE GAME AND EXIT", TXT_RGB, { 253, 255, 154 });
 
@@ -473,6 +475,7 @@ bool ProcessExit()
 		}
 
 		if (_kbhit()) { // if any key is pressed
+			if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			check = true;
 
 			char handle;

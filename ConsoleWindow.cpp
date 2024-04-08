@@ -323,7 +323,21 @@ void settingScreen()
     //drawMiniMap4(20, 13);
     //highlightedBox(19, 12, 9, 31, { 255, 255,  0 });
 
-    drawMiniMapFaded1(20, 13);
+    switch (optionMAP)
+    {
+    case 1:
+        drawMiniMapFaded1(20, 13);
+        break;
+    case 2:
+        drawMiniMapFaded2(20, 13);
+        break;
+    case 3:
+        drawMiniMapFaded3(20, 13);
+        break;
+    case 4:
+        drawMiniMapFaded4(20, 13);
+        break;
+    }
 
     GotoXY(x_menu, 30 - 3); changeTextColor(TXT_RGB); cout << "Use WS to navigate"; changeTextColor();
     while (isEnter == false) {
