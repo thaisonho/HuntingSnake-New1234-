@@ -14,7 +14,7 @@
 using namespace std;
 
 // CONSTANTS
-const int MAX_SIZE_FOOD = 5;
+const int MAX_SIZE_FOOD = 4;
 const int MAX_SIZE_SNAKE = 30;
 const int MAX_SPEED = 5;
 const int MAX_SIZE_OBS = 10;
@@ -85,7 +85,7 @@ void ResetData(void);// Function Intialize original data
 void ResetLoadData(void);
 
 void outputInfoPlayer(Player PlayerSnake[], int id);
-void extractDataFile(Player PlayerSnake[], int i, Player &LoadPlayer);
+void extractDataFile(Player PlayerSnake[], int i, Player& LoadPlayer);
 void ExtractInfoPlayer(Player PlayerSnake[], int& id, string& namePlayer); // Save information of player into struct Player
 void ThreadFunction(void);// Subfunction for thread
 

@@ -946,5 +946,3 @@ unsigned int inputUnsignedNumber(int pos_x, int pos_y)
     ShowConsoleCursor(false);
     return res;
 }
-
-

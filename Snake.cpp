@@ -57,7 +57,6 @@ char MOVING; // At a moment, there are three directions that snake can move
 bool GateDraw = false; // Gate exist or not
 bool up = false;
 bool WIN = false;
-bool LoadSnake = false;
 atomic<bool> stop_thread(false);
 
 float SPEED; // Current speed (Speed increase with each level)
@@ -76,32 +75,33 @@ HANDLE g_ThreadHandle;
 
 // Function to set the thread handle
 void SetThreadHandle(HANDLE t) {
-    g_ThreadHandle = t;
+	g_ThreadHandle = t;
 }
 
 // Function to exit the game
 void ExitGame() {
-    // Clear the console screen
-    system("cls");
+	// Clear the console screen
+	system("cls");
 
-    // Set STATE to 0 (assuming STATE is a global variable)
-    STATE = 0;
+	// Set STATE to 0 (assuming STATE is a global variable)
+	STATE = 0;
 
-    // Terminate the thread using the stored handle
-    TerminateThread(g_ThreadHandle, 0);
+	// Terminate the thread using the stored handle
+	TerminateThread(g_ThreadHandle, 0);
 
-    // Get the handle of the console window
-    HWND consoleWindow = GetConsoleWindow();
+	// Get the handle of the console window
+	HWND consoleWindow = GetConsoleWindow();
 
-    // Post a close message to the console window
-    PostMessage(consoleWindow, WM_CLOSE, 0, 0);
+	// Post a close message to the console window
+	PostMessage(consoleWindow, WM_CLOSE, 0, 0);
 
-    // Exit the process
-    ExitProcess(0);
+	// Exit the process
+	ExitProcess(0);
 }
 
 void StartGame(bool LoadSnake)
 {
+
 	system("cls"); // Clear screen
 	if (LoadSnake == false)
 		ResetData(); // Intialize original data
@@ -114,26 +114,26 @@ void StartGame(bool LoadSnake)
 
 	switch (map)
 	{
-		case 1:
-		{
-			Extract2DPic(ch, "MAP1");
-			break;
-		}
-		case 2:
-		{
-			Extract2DPic(ch, "MAP2");
-			break;
-		}
-		case 3:
-		{
-			Extract2DPic(ch, "MAP3");
-			break;
-		}
-		case 4:
-		{
-			Extract2DPic(ch, "MAP4");
-			break;
-		}
+	case 1:
+	{
+		Extract2DPic(ch, "MAP1");
+		break;
+	}
+	case 2:
+	{
+		Extract2DPic(ch, "MAP2");
+		break;
+	}
+	case 3:
+	{
+		Extract2DPic(ch, "MAP3");
+		break;
+	}
+	case 4:
+	{
+		Extract2DPic(ch, "MAP4");
+		break;
+	}
 	}
 
 	DrawSnake(MSSV); // Draw snake with MSSV of four members in group
@@ -183,13 +183,11 @@ void LoadGame()  // void LoadGame(int& lev)
 	}
 
 	thread_obj.join();
-	stop_thread = false;
 	for (int i = 0; i <= 28; ++i) {
 		changeTextColor(BG_RGB_2);
 		GotoXY(0, i); cout << "                                                                                                                        ";
 	}
 	changeTextColor();
-	Sleep(100);
 	return;
 }
 
@@ -203,7 +201,7 @@ void ProcessPause(HANDLE t) {
 	bool check = true, isEnter = false;
 	int selection = 1;
 
-	draw_rectangle(x_menu, y_menu, 2, 30, { 234, 222, 165 }, "CONTINUE", TXT_RGB, {253, 255, 154});
+	draw_rectangle(x_menu, y_menu, 2, 30, { 234, 222, 165 }, "PLAY", TXT_RGB, { 253, 255, 154 });
 
 	draw_rectangle(x_menu, y_menu + 5, 2, 30, { 234, 222, 165 }, "SAVE GAME AND EXIT", TXT_RGB, { 253, 255, 154 });
 
@@ -277,11 +275,15 @@ void PauseGame(HANDLE t)
 
 void SaveGame(HANDLE t)
 {
-	ExtractInfoPlayer(PlayerSnake, id, namePlayer);
+	if (LoadSnake)
+		ExtractInfoPlayer(PlayerSnake, LoadOption, namePlayer);
+	else
+		ExtractInfoPlayer(PlayerSnake, id, namePlayer);
+
 	outputInfoPlayer(PlayerSnake, id);
 	SuspendThread(t);
 	system("cls");
-	
+
 	mainMenu();
 }
 
@@ -297,7 +299,7 @@ ostream& operator << (ostream& outDev, Point p)
 	return outDev;
 }
 
-void extractDataFile(Player PlayerSnake[], int i, Player &LoadPlayer)
+void extractDataFile(Player PlayerSnake[], int i, Player& LoadPlayer)
 {
 	ifstream INP;
 	INP.open("data.txt");
@@ -343,22 +345,37 @@ void extractDataFile(Player PlayerSnake[], int i, Player &LoadPlayer)
 
 void ExtractInfoPlayer(Player PlayerSnake[], int& id, string& namePlayer)
 {
-	ofstream _OUT("A.txt");
-	_OUT << id;
-
-	PlayerSnake[id].Name = namePlayer;
-	PlayerSnake[id].level = lev;
-	PlayerSnake[id].map = map;
-	PlayerSnake[id].ID_FOOD = ID_Food;
-	PlayerSnake[id].ID_BONUSFOOD = ID_BonusFood;
-	PlayerSnake[id].direction = MOVING;
-	PlayerSnake[id].charLock = CHAR_LOCK;
-	PlayerSnake[id].delta_speed = DeltaSpeed;
-	PlayerSnake[id].score = SCORE;
-	PlayerSnake[id].sizeOfSnake = Snake_Size;
-	PlayerSnake[id].speed = SPEED;
-	PlayerSnake[id].cntGate = cntGate;
-	PlayerSnake[id].cntObs = obs_nums;
+	if (LoadSnake)
+	{
+		PlayerSnake[id].level = lev;
+		PlayerSnake[id].map = map;
+		PlayerSnake[id].ID_FOOD = ID_Food;
+		PlayerSnake[id].ID_BONUSFOOD = ID_BonusFood;
+		PlayerSnake[id].direction = MOVING;
+		PlayerSnake[id].charLock = CHAR_LOCK;
+		PlayerSnake[id].delta_speed = DeltaSpeed;
+		PlayerSnake[id].score = SCORE;
+		PlayerSnake[id].sizeOfSnake = Snake_Size;
+		PlayerSnake[id].speed = SPEED;
+		PlayerSnake[id].cntGate = cntGate;
+		PlayerSnake[id].cntObs = obs_nums;
+	}
+	else
+	{
+		PlayerSnake[id].Name = namePlayer;
+		PlayerSnake[id].level = lev;
+		PlayerSnake[id].map = map;
+		PlayerSnake[id].ID_FOOD = ID_Food;
+		PlayerSnake[id].ID_BONUSFOOD = ID_BonusFood;
+		PlayerSnake[id].direction = MOVING;
+		PlayerSnake[id].charLock = CHAR_LOCK;
+		PlayerSnake[id].delta_speed = DeltaSpeed;
+		PlayerSnake[id].score = SCORE;
+		PlayerSnake[id].sizeOfSnake = Snake_Size;
+		PlayerSnake[id].speed = SPEED;
+		PlayerSnake[id].cntGate = cntGate;
+		PlayerSnake[id].cntObs = obs_nums;
+	}
 
 	for (int i = 0; i < ID_Food; i++)
 		PlayerSnake[id].Food[i] = Food[i];
@@ -376,7 +393,7 @@ void ExtractInfoPlayer(Player PlayerSnake[], int& id, string& namePlayer)
 		PlayerSnake[id].Gate[i] = Gate[i];
 
 	highScore = max(highScore, PlayerSnake[id].score);
-}	
+}
 
 void outputInfoPlayer(Player PlayerSnake[], int id)
 {
@@ -475,7 +492,6 @@ bool ProcessExit()
 		}
 
 		if (_kbhit()) { // if any key is pressed
-			if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			check = true;
 
 			char handle;
@@ -514,7 +530,7 @@ bool ProcessExit()
 void ResetLoadData()
 {
 	// Get info of previous Snake from Load Game
-	extractDataFile(PlayerSnake, selectionLoad, LoadPlayer);
+	extractDataFile(PlayerSnake, LoadOption, LoadPlayer);
 
 	//Initialize the global variables, structs
 	for (int i = 0; i < LoadPlayer.cntGate; i++)
@@ -575,11 +591,20 @@ void ResetData()
 	ID_Food = 0;
 	ID_BonusFood = 0;
 
-	int Init = (lev <= 3 ? (10 + Snake_Size) / 2 + 5 : 17);
+	int Init = (10 + Snake_Size) / 2 + 5;
 
 	//Initialize the coordinates of snake
-	for (int i = 0; i < Snake_Size; i++)
-		Snake[i] = { Init - i, 8 };
+	if (lev == 4)
+	{
+		Init = 10;
+		for (int i = 0; i < Snake_Size; i++)
+			Snake[i] = { 8, Init + i };
+	}
+	else
+	{
+		for (int i = 0; i < Snake_Size; i++)
+			Snake[i] = { Init - i, 8 };
+	}
 
 	GenerateFood(); // Create food array
 	GenerateBonusFood(); // Create Bonus Food array
@@ -603,7 +628,7 @@ void ThreadFunction()
 		switch (lev)
 		{
 		case 4:
-			Sleep(100);
+			//Sleep(100);
 			move_obs(x_pos, y_pos, HEIGHT_BOARD, WIDTH_BOARD, obs, obs_nums, up, const_obs, const_obs_nums);
 		}
 
@@ -616,7 +641,7 @@ void ThreadFunction()
 			{
 				// WASD Key   W: Up, S: Down, A: Left, D: Right
 				// Addtime set speed different between columns and rows
-			case 'W': 
+			case 'W':
 			{
 				draw_ButtonW();
 				MoveUp();
@@ -637,7 +662,7 @@ void ThreadFunction()
 				break;
 			}
 
-			case 'A': 
+			case 'A':
 			{
 				draw_ButtonA();
 				MoveLeft();
@@ -647,7 +672,7 @@ void ThreadFunction()
 				break;
 			}
 
-			case 'D': 
+			case 'D':
 			{
 				draw_ButtonD();
 				MoveRight();
@@ -683,7 +708,7 @@ void DrawSnake(const string& str) // With str is MSSV
 {
 	// Draw head of snake
 	GotoXY(Snake[0].x, Snake[0].y);
-	changeTextColor({255, 0, 0}); // Color of head will be different from body
+	changeTextColor({ 255, 0, 0 }); // Color of head will be different from body
 	cout << str[0];
 
 	for (int i = 1; i < Snake_Size; i++)
@@ -887,7 +912,7 @@ void ProcessGate() // void ProcessGate(int& LEVEL)
 	if (GateDraw == false) // If doesn't meet the conditions to create Gate -> continue draw food to eat food 
 	{
 		DrawFood(); // (4 foods each level to create Gate)
-		if (ID_BonusFood < 2) 
+		if (ID_BonusFood < 2)
 			DrawBonusFood();
 	}
 	else // Create Gate already
@@ -910,7 +935,7 @@ void ProcessGate() // void ProcessGate(int& LEVEL)
 
 		if (Snake_Size == 0) // When all the body of snake come into Gate -> Erase Gate and move to next level
 		{
-			if(checkMusicEffect) PlaySound(TEXT("gate.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			if (checkMusicEffect) PlaySound(TEXT("gate.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			// Erase Gate
 			EraseGate();
 			GateDraw = false;
@@ -1230,13 +1255,13 @@ void MoveUp()
 	if (Snake[0].x == Food[ID_Food].x && Snake[0].y - 1 == Food[ID_Food].y) // If move to coordinates of Food -> Eat Food
 	{
 		EatFood(1);
-		if(checkMusicEffect) if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x == BonusFood[ID_BonusFood].x && Snake[0].y - 1 == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		if (checkMusicEffect) if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--) // Change the coordinates of Snake
@@ -1258,7 +1283,7 @@ void MoveUp()
 	if (TouchItself() || TouchGate()) // Check conditions to make sure that snake still ALIVE
 	{
 		AnimationDead();
-		StopThread();	
+		StopThread();
 		ProcessDead();
 		return;
 	}
@@ -1276,13 +1301,13 @@ void MoveDown()
 	if (Snake[0].x == Food[ID_Food].x && Snake[0].y + 1 == Food[ID_Food].y)
 	{
 		EatFood(1);
-		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x == BonusFood[ID_BonusFood].x && Snake[0].y + 1 == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--)
@@ -1322,13 +1347,13 @@ void MoveRight()
 	if (Snake[0].x + 1 == Food[ID_Food].x && Snake[0].y == Food[ID_Food].y)
 	{
 		EatFood(1);
-		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x + 1 == BonusFood[ID_BonusFood].x && Snake[0].y == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--)
@@ -1368,13 +1393,13 @@ void MoveLeft()
 	if (Snake[0].x - 1 == Food[ID_Food].x && Snake[0].y == Food[ID_Food].y)
 	{
 		EatFood(1);
-		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x - 1 == BonusFood[ID_BonusFood].x && Snake[0].y == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		if(checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--)
@@ -1402,9 +1427,9 @@ void MoveLeft()
 	}
 }
 
-void increaseScore(int &SCORE)
+void increaseScore(int& SCORE)
 {
-	changeTextColor({0, 0, 0}, {37, 67, 110});
+	changeTextColor({ 0, 0, 0 }, { 37, 67, 110 });
 	GotoXY(107, 20);
 	cout << "SCORE: " << SCORE;
 	changeTextColor();
@@ -1414,7 +1439,7 @@ void AnimationDead()
 {
 	for (int i = 1; i <= 3; i++) {
 		DrawSnake(MSSV);//draw 
-		if(checkMusicEffect) if(checkMusicEffect) PlaySound(TEXT("beep.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("beep.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		fflush(stdout);
 		Sleep(450);
 		EraseOldSnake();//erase
@@ -1424,6 +1449,6 @@ void AnimationDead()
 	}
 	DrawSnake(MSSV);
 	Sleep(250);
-	if (checkMusicEffect) if(checkMusicEffect) PlaySound(TEXT("dead.wav"), NULL, SND_FILENAME | SND_SYNC);
+	if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("dead.wav"), NULL, SND_FILENAME | SND_SYNC);
 	EraseOldSnake();
 }
