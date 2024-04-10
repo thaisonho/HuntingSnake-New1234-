@@ -186,10 +186,12 @@ void mainMenu() {
     int x_menu = (getTermSize().x - 20) / 2 + 22,
         y_menu = (getTermSize().y - 4) / 2;
 
+
     // define variables use for navigate through the menu
 MENU:
+    system("cls");
     bool check = true, isEnter = false;
-    static int selection = 1, prev_selection = 4, next_selection = 2;
+    static int selection = 1, prev_selection = 6, next_selection = 2;
 
     drawMenuSnake(0, 0);
     Sleep(500);
@@ -216,11 +218,11 @@ MENU:
                 deleteArtMenu(x_menu, y_menu, selection);
 
                 ++selection;
-                if (selection > 4) selection = 1;
+                if (selection > 6) selection = 1;
                 prev_selection = selection - 1;
                 next_selection = selection + 1;
-                if (prev_selection == 0)   prev_selection = 4;
-                if (next_selection == 5)    next_selection = 1;
+                if (prev_selection == 0)   prev_selection = 6;
+                if (next_selection == 7)   next_selection = 1;
 
                 drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
                 drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
@@ -232,11 +234,11 @@ MENU:
                 deleteArtMenu(x_menu, y_menu, selection);
 
                 --selection;
-                if (selection < 1) selection = 4;
+                if (selection < 1) selection = 6;
                 prev_selection = selection - 1;
                 next_selection = selection + 1;
-                if (prev_selection == 0)   prev_selection = 4;
-                if (next_selection == 5)    next_selection = 1;
+                if (prev_selection == 0)   prev_selection = 6;
+                if (next_selection == 7)   next_selection = 1;
 
                 drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
                 drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
@@ -260,22 +262,28 @@ MENU:
     case 2:
         if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
         LoadGamePlayer(PlayerSnake1, id, LoadPlayer1);
-        system("cls");
         goto MENU;
         break;
     case 3:
         if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
         ScoreBoard(S1, PlayerSnake1, id);
-        system("cls");
         goto MENU;
         break;
     case 4:
         if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
         settingScreen();
-        system("cls");
         goto MENU;
         break;
-    default:
+    case 5:
+        draw_Tutorial(0, 0, Tutorial);
+        goto MENU;
+        break;
+    case 6:
+        /*ExitGame(handle_thread_obj);*/
+        if (ProcessExit()) {
+            ExitGame();
+        }
+        goto MENU;
         break;
     }
     GotoXY(0, 0);
@@ -315,7 +323,21 @@ void settingScreen()
     //drawMiniMap4(20, 13);
     //highlightedBox(19, 12, 9, 31, { 255, 255,  0 });
 
-    drawMiniMapFaded1(20, 13);
+    switch (optionMAP)
+    {
+    case 1:
+        drawMiniMapFaded1(20, 13);
+        break;
+    case 2:
+        drawMiniMapFaded2(20, 13);
+        break;
+    case 3:
+        drawMiniMapFaded3(20, 13);
+        break;
+    case 4:
+        drawMiniMapFaded4(20, 13);
+        break;
+    }
 
     GotoXY(x_menu, 30 - 3); changeTextColor(TXT_RGB); cout << "Use WS to navigate"; changeTextColor();
     while (isEnter == false) {
@@ -924,5 +946,3 @@ unsigned int inputUnsignedNumber(int pos_x, int pos_y)
     ShowConsoleCursor(false);
     return res;
 }
-
-

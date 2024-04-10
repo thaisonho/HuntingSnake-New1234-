@@ -94,21 +94,21 @@ void create_obstacle_4(int x_pos, int y_pos, int height, int width, Point obs[],
 {
 	int obs_length = 10; // Khai bao do dai 2 thanh vat can di chuyen la 10 don vi
 	// Khoi tao gia tri toa do thanh vat can di chuyen tu tren xuong
-	for (int i = y_pos + 1 ; i <= y_pos + obs_length; i++)
+	for (int i = y_pos + 1; i <= y_pos + obs_length; i++)
 	{
 		obs[obs_nums].x = x_pos + 20;
 		obs[obs_nums].y = i;
 		obs_nums++;
 	}
 	// Khoi tao gia tri toa do thanh vat can di chuyen tu duoi len
-	for (int i = y_pos + height - obs_length - 1 ; i < y_pos + height - 1; i++)
+	for (int i = y_pos + height - obs_length - 1; i < y_pos + height - 1; i++)
 	{
 		obs[obs_nums].x = width - 20;
 		obs[obs_nums].y = i;
 		obs_nums++;
 	}
 	// Khoi tao gia tri toa do thanh vat can nam ngang co dinh
-	for (int i = x_pos + width/2 - 10; i <= x_pos + width / 2 + 10; i++) {
+	for (int i = x_pos + width / 2 - 10; i <= x_pos + width / 2 + 10; i++) {
 		const_obs[const_obs_nums].x = i;
 		const_obs[const_obs_nums].y = 16;
 		const_obs_nums++;
@@ -210,11 +210,3 @@ void create_teleGate() {
 	}
 
 }
-
-
-
-
-
-
-
-

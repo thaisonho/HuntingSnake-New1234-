@@ -8,7 +8,9 @@
 using namespace std;
 
 int selectionLoad = 1;
+int LoadOption = 1;
 string st[100];
+bool LoadSnake = false;
 
 void NewGame(Player PlayerSnake[], int& id, string& namePlayer)
 {
@@ -29,7 +31,7 @@ void NewGame(Player PlayerSnake[], int& id, string& namePlayer)
 			if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			break;
 		}
-			
+
 		notValid();
 		Sleep(1500);
 		refill();
@@ -43,7 +45,7 @@ void NewGame(Player PlayerSnake[], int& id, string& namePlayer)
 	PlayerSnake[id].Name = namePlayer;
 }
 
-bool isValidName(Player PlayerSnake[], int id, string &st)
+bool isValidName(Player PlayerSnake[], int id, string& st)
 {
 
 	for (int i = 1; i <= id; i++)
@@ -55,9 +57,8 @@ bool isValidName(Player PlayerSnake[], int id, string &st)
 	return true;
 }
 
-int LoadGameBoard(Player PlayerSnake[], int id, Player &LoadPlayer)
+int LoadGameBoard(Player PlayerSnake[], int id, Player& LoadPlayer)
 {
-	bool LoadSnake = false;
 	SetConsoleCP(CP_UTF8);
 	system("cls");
 
@@ -127,7 +128,6 @@ int LoadGameBoard(Player PlayerSnake[], int id, Player &LoadPlayer)
 	int x_pointer = x_menu, y_pointer = y_menu;
 	int x_prev = x_menu, y_prev = y_menu;
 	bool check = true, isEnter = false;
-	selectionLoad = 1;
 
 	while (isEnter == false) {
 		GotoXY(x_pointer, y_pointer);
@@ -147,7 +147,7 @@ int LoadGameBoard(Player PlayerSnake[], int id, Player &LoadPlayer)
 
 			// change the x_prev & y_prev to the current position
 			x_prev = x_pointer;
-			y_prev = y_pointer;	
+			y_prev = y_pointer;
 
 			// hightlight the current button
 			filled_rec(x_pointer, y_pointer, 0, rec_width, { 247, 183, 135 });
@@ -176,6 +176,7 @@ int LoadGameBoard(Player PlayerSnake[], int id, Player &LoadPlayer)
 				GotoXY(x_prev + 65 + 8, y_prev);	cout << level;
 			};
 
+			selectionLoad = y_pointer / y_menu;
 			st[(y_pointer / y_menu)] = name;
 			changeTextColor();
 
@@ -226,6 +227,12 @@ int LoadGameBoard(Player PlayerSnake[], int id, Player &LoadPlayer)
 			}
 		}
 	}
+
+	LoadOption = (y_pointer - y_menu) / 2 + 1;
+	/*ofstream OUTT("A.txt");
+	OUTT << selectionLoad << " " << LoadSnake << " " << y_pointer << " " << y_menu << " " << (y_pointer - y_menu) / 2 + 1 << "\n";
+	OUTT.close();*/
+
 	switch (selectionLoad)
 	{
 	case -1:
@@ -237,7 +244,7 @@ int LoadGameBoard(Player PlayerSnake[], int id, Player &LoadPlayer)
 	return 0;
 }
 
-void LoadGamePlayer(Player PlayerSnake[], int id, Player &LoadPlayer)
+void LoadGamePlayer(Player PlayerSnake[], int id, Player& LoadPlayer)
 {
 	system("cls");
 	int res = LoadGameBoard(PlayerSnake, id, LoadPlayer);

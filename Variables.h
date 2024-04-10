@@ -18,7 +18,7 @@ extern int WIDTH;
 
 extern bool LoadSnake;
 extern int selectionLoad;
-
+extern int LoadOption;
 
 extern PAIR TELEGATE[100];
 extern Player LoadPlayer;

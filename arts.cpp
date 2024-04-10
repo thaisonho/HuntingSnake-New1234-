@@ -37,7 +37,7 @@ void drawMenuSnake(int pos_x, int pos_y)
     Sleep(time); GotoXY(pos_x, pos_y++);    cout << u8"\x1b[49m                        \x1b[49;38;2;0;239;135m▀\x1b[38;2;0;238;132;48;2;0;239;135m▄\x1b[38;2;0;240;133;48;2;0;167;94m▄\x1b[38;2;0;227;125;48;2;8;8;8m▄\x1b[38;2;0;92;51;48;2;127;127;127m▄\x1b[38;2;20;20;20;48;2;241;241;242m▄\x1b[38;2;174;174;174;48;2;241;241;242m▄\x1b[38;2;241;241;242;48;2;186;192;201m▄\x1b[38;2;241;241;242;48;2;65;85;112m▄\x1b[38;2;158;167;180;48;2;53;74;103m▄\x1b[38;2;53;74;103;48;2;39;55;78m▄\x1b[38;2;53;74;103;48;2;40;55;78m▄\x1b[38;2;158;167;180;48;2;53;74;103m▄\x1b[38;2;241;241;242;48;2;65;85;112m▄\x1b[38;2;241;241;242;48;2;186;192;201m▄\x1b[38;2;174;174;174;48;2;241;241;242m▄\x1b[38;2;20;20;20;48;2;241;241;242m▄\x1b[38;2;0;92;51;48;2;127;127;127m▄\x1b[38;2;0;227;125;48;2;8;8;8m▄\x1b[38;2;0;240;133;48;2;0;168;94m▄\x1b[38;2;0;238;132;48;2;0;239;135m▄\x1b[49;38;2;0;239;135m▀\x1b[49m                             \x1b[m";
     Sleep(time); GotoXY(pos_x, pos_y++);    cout << u8"\x1b[49m                           \x1b[49;38;2;0;238;130m▀\x1b[38;2;0;240;135;48;2;0;239;130m▄\x1b[38;2;0;239;128;48;2;0;214;116m▄\x1b[38;2;0;238;128;48;2;0;51;26m▄\x1b[38;2;1;85;45;48;2;127;127;128m▄\x1b[38;2;0;14;7;48;2;221;221;222m▄\x1b[38;2;150;150;150;48;2;241;241;242m▄\x1b[38;2;241;241;242;48;2;198;203;210m▄\x1b[38;2;241;241;242;48;2;199;204;211m▄\x1b[38;2;150;150;150;48;2;241;241;242m▄\x1b[38;2;0;14;7;48;2;221;221;222m▄\x1b[38;2;0;85;45;48;2;127;127;128m▄\x1b[38;2;0;239;128;48;2;0;52;27m▄\x1b[38;2;0;239;128;48;2;0;214;116m▄\x1b[38;2;0;240;135;48;2;0;239;130m▄\x1b[49;38;2;0;238;129m▀\x1b[49m                                \x1b[m";
     Sleep(time); GotoXY(pos_x, pos_y++);    cout << u8"\x1b[49m                              \x1b[49;38;2;0;235;118m▀\x1b[49;38;2;0;238;124m▀\x1b[38;2;0;239;122;48;2;0;239;124m▄\x1b[38;2;0;239;122;48;2;0;62;30m▄\x1b[38;2;0;228;115;48;2;5;5;5m▄\x1b[38;2;0;230;117;48;2;5;5;5m▄\x1b[38;2;0;239;122;48;2;0;63;31m▄\x1b[38;2;0;239;122;48;2;0;239;124m▄\x1b[49;38;2;0;239;124m▀\x1b[49;38;2;0;235;118m▀\x1b[49m                                   \x1b[m";
-}   
+}
 
 void drawMAP1(int pos_x, int pos_y, std::string pic)
 {
@@ -128,7 +128,7 @@ void drawMAP3(int pos_x, int pos_y, std::string pic)
     for (auto i : pic) {
         switch (i)
         {
-        case '.': 
+        case '.':
             changeTextColor({ 192, 225, 246 });
             break;
         case '+':
@@ -381,7 +381,7 @@ void draw_snakeDEAD(int pos_x, int pos_y, std::string pic)
             changeTextColor({ 162, 91, 98 });
             break;
         case 'c':
-            changeTextColor({ 96, 122, 194 });  
+            changeTextColor({ 96, 122, 194 });
             break;
         default:
             changeTextColor({ 162, 91, 98 });
@@ -482,13 +482,25 @@ void deleteArtMenu(int pos_x, int pos_y, int option)
         GotoXY(pos_x, pos_y++); cout << u8"                                   ";
         GotoXY(pos_x, pos_y++); cout << u8"                                   ";
         break;
+    case 5:
+        GotoXY(pos_x, pos_y++); cout << u8"                                    ";
+        GotoXY(pos_x, pos_y++); cout << u8"                                    ";
+        GotoXY(pos_x, pos_y++); cout << u8"                                    ";
+        GotoXY(pos_x, pos_y++); cout << u8"                                    ";
+        break;
+    case 6:
+        GotoXY(pos_x, pos_y++); cout << u8"                 ";
+        GotoXY(pos_x, pos_y++); cout << u8"                 ";
+        GotoXY(pos_x, pos_y++); cout << u8"                 ";
+        GotoXY(pos_x, pos_y++); cout << u8"                 ";
+        break;
     }
 }
 
 void drawMedal(int pos_x, int pos_y, int option)
 {
     SetConsoleOutputCP(CP_UTF8);
-    DWORD time = 25 ;
+    DWORD time = 25;
     switch (option)
     {
     case 1:
@@ -555,7 +567,7 @@ void drawMedal(int pos_x, int pos_y, int option)
         GotoXY(pos_x, pos_y++); cout << u8"\x1b[49m \x1b[49;38;2;218;152;95m▀\x1b[38;2;214;148;95;48;2;196;126;73m▄\x1b[38;2;235;197;186;48;2;236;186;165m▄\x1b[38;2;174;107;63;48;2;203;142;106m▄\x1b[38;2;163;95;44;48;2;190;123;80m▄\x1b[38;2;140;74;27;48;2;162;84;31m▄\x1b[38;2;230;166;114;48;2;236;178;145m▄\x1b[49;38;2;232;168;109m▀\x1b[49m \x1b[m";
         break;
     }
-  
+
 }
 
 void drawStage()
@@ -696,6 +708,18 @@ void drawMenu(int pos_x, int pos_y, int option, RGBCOLOR color)
         GotoXY(pos_x, pos_y++); cout << u8"█▄▄▀█ ▄▄██ ███ ███ ▄█ ██ █ █▄▀█▄▄▀█";
         GotoXY(pos_x, pos_y++); cout << u8"█▄▄▄█▄▄▄██▄███▄██▄▄▄█▄██▄█▄▄▄▄█▄▄▄█";
         break;
+    case 5:
+        GotoXY(pos_x, pos_y++); cout << u8"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄";
+        GotoXY(pos_x, pos_y++); cout << u8"█▄ ▄█ ██ █▄ ▄█▀▄▄▀█ ▄▄▀██▄██ ▄▄▀█ ██";
+        GotoXY(pos_x, pos_y++); cout << u8"██ ██ ██ ██ ██ ██ █ ▀▀▄██ ▄█ ▀▀ █ ██";
+        GotoXY(pos_x, pos_y++); cout << u8"██▄███▄▄▄██▄███▄▄██▄█▄▄█▄▄▄█▄██▄█▄▄█";
+        break;
+    case 6:
+        GotoXY(pos_x, pos_y++); cout << u8"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄";
+        GotoXY(pos_x, pos_y++); cout << u8"█ ▄▄█ █ ██▄██▄ ▄█";
+        GotoXY(pos_x, pos_y++); cout << u8"█ ▄▄█▀▄▀██ ▄██ ██";
+        GotoXY(pos_x, pos_y++); cout << u8"█▄▄▄█▄█▄█▄▄▄██▄██";
+        break;
     }
 }
 
@@ -756,8 +780,11 @@ void drawMiniMapFaded1(int pos_x, int pos_y) {
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[38;2;72;82;89;48;2;73;82;89m▄\x1b[38;2;79;86;93;48;2;76;84;91m▄\x1b[38;2;79;85;92;48;2;86;91;97m▄\x1b[38;2;73;82;89;48;2;75;84;91m▄\x1b[38;2;75;82;90;48;2;90;93;100m▄\x1b[38;2;100;95;103;48;2;101;96;104m▄\x1b[48;2;101;96;104m   \x1b[38;2;97;94;101;48;2;95;93;100m▄\x1b[38;2;91;91;97;48;2;87;87;93m▄\x1b[38;2;101;96;104;48;2;83;85;90m▄\x1b[38;2;101;96;104;48;2;96;93;101m▄\x1b[38;2;101;96;104;48;2;98;94;102m▄\x1b[38;2;101;96;104;48;2;93;90;97m▄\x1b[38;2;101;96;104;48;2;92;89;97m▄\x1b[38;2;101;96;104;48;2;98;94;101m▄\x1b[38;2;101;96;104;48;2;98;94;102m▄\x1b[48;2;101;96;104m            \x1b[m";
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[48;2;74;83;90m \x1b[38;2;85;90;96;48;2;84;90;95m▄\x1b[38;2;76;84;91;48;2;76;84;90m▄\x1b[38;2;76;84;91;48;2;74;82;89m▄\x1b[38;2;75;84;91;48;2;86;90;96m▄\x1b[38;2;89;90;98;48;2;87;89;97m▄\x1b[48;2;101;96;104m                        \x1b[m";
     deleteMapText(pos_x + 5, pos_y + 2);
-    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 }); GotoXY(pos_x + 5, pos_y + 2); cout << u8"►" << "      " << "SPACE" << "      " << u8"◄"; changeTextColor();
-
+    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 });
+    GotoXY(pos_x + 3, pos_y + 2); cout << u8"►";
+    GotoXY(pos_x + 5 + 21, pos_y + 2); cout << u8"◄";
+    GotoXY(pos_x + 3 + (24 - 5) / 2, pos_y + 2); cout << "SPACE";
+    changeTextColor();
 }
 
 
@@ -772,8 +799,11 @@ void drawMiniMapFaded2(int pos_x, int pos_y) {
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[48;2;67;72;79m                              \x1b[m";
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[48;2;67;72;79m                              \x1b[m";
     deleteMapText(pos_x + 5, pos_y + 2);
-    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 }); GotoXY(pos_x + 5, pos_y + 2); cout << u8"►" << "      " << "HILL" << "      " << u8"◄"; changeTextColor();
-
+    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 });
+    GotoXY(pos_x + 3, pos_y + 2); cout << u8"►";
+    GotoXY(pos_x + 5 + 21, pos_y + 2); cout << u8"◄";
+    GotoXY(pos_x + 3 + (24 - 4) / 2, pos_y + 2); cout << "HILL";
+    changeTextColor();
 }
 
 
@@ -788,8 +818,11 @@ void drawMiniMapFaded3(int pos_x, int pos_y) {
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[38;2;86;92;91;48;2;86;82;72m▄\x1b[38;2;86;86;78;48;2;82;83;68m▄\x1b[38;2;85;92;90;48;2;82;83;72m▄\x1b[38;2;84;93;92;48;2;77;86;74m▄\x1b[38;2;85;95;94;48;2;81;90;86m▄\x1b[38;2;86;96;97;48;2;89;97;102m▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\x1b[38;2;86;96;97;48;2;89;97;101m▄\x1b[38;2;84;95;94;48;2;78;91;85m▄\x1b[38;2;82;91;87;48;2;72;84;72m▄\x1b[38;2;83;77;70;48;2;75;82;69m▄\x1b[38;2;81;90;89;48;2;71;83;72m▄\x1b[m";
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[38;2;78;73;67;48;2;79;83;72m▄\x1b[38;2;80;73;67;48;2;85;81;69m▄\x1b[38;2;78;73;67;48;2;79;83;72m▄\x1b[38;2;78;73;67;48;2;78;83;72m▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\x1b[38;2;78;73;67;48;2;78;82;71m▄\x1b[38;2;79;73;67;48;2;79;77;68m▄\x1b[38;2;78;73;67;48;2;77;82;72m▄\x1b[m";
     deleteMapText(pos_x + 5, pos_y + 2);
-    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 }); GotoXY(pos_x + 5, pos_y + 2); cout << u8"►" << "      " << "SKY" << "      " << u8"◄"; changeTextColor();
-
+    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 });
+    GotoXY(pos_x + 3, pos_y + 2); cout << u8"►";
+    GotoXY(pos_x + 5 + 21, pos_y + 2); cout << u8"◄";
+    GotoXY(pos_x + 3 + (24 - 3) / 2, pos_y + 2); cout << "SKY";
+    changeTextColor();
 }
 
 
@@ -804,10 +837,12 @@ void drawMiniMapFaded4(int pos_x, int pos_y) {
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[48;2;94;84;79m               \x1b[38;2;92;83;78;48;2;94;84;79m▄\x1b[38;2;90;81;77;48;2;94;84;79m▄\x1b[38;2;88;80;76;48;2;94;84;79m▄\x1b[38;2;93;83;78;48;2;94;84;79m▄\x1b[48;2;94;84;79m     \x1b[38;2;94;84;80;48;2;96;89;85m▄\x1b[38;2;97;90;87;48;2;97;91;88m▄\x1b[38;2;95;87;84;48;2;97;91;88m▄\x1b[38;2;93;84;81;48;2;94;87;83m▄\x1b[48;2;93;83;79m \x1b[48;2;94;84;79m \x1b[m";
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[48;2;94;84;79m            \x1b[38;2;91;81;76;48;2;94;84;79m▄\x1b[38;2;87;80;78;48;2;93;83;78m▄\x1b[38;2;88;83;80;48;2;92;83;78m▄\x1b[38;2;85;80;77;48;2;89;80;76m▄\x1b[38;2;83;78;76;48;2;84;79;77m▄\x1b[38;2;88;79;75;48;2;87;80;77m▄\x1b[38;2;94;84;79;48;2;93;83;78m▄\x1b[48;2;94;84;79m       \x1b[38;2;94;84;79;48;2;93;83;79m▄\x1b[48;2;94;84;79m   \x1b[m";
     deleteMapText(pos_x + 5, pos_y + 2);
-    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 }); GotoXY(pos_x + 5, pos_y + 2); cout << u8"►" << "      " << "UNDERGROUND" << "      " << u8"◄"; changeTextColor();
-
+    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 });
+    GotoXY(pos_x + 3, pos_y + 2); cout << u8"►";
+    GotoXY(pos_x + 5 + 21, pos_y + 2); cout << u8"◄";
+    GotoXY(pos_x + 3 + (24 - 11) / 2, pos_y + 2); cout << "UNDERGROUND";
+    changeTextColor();
 }
-
 
 void drawMiniMap1(int pos_x, int pos_y) {
     SetConsoleOutputCP(CP_UTF8);
@@ -820,8 +855,11 @@ void drawMiniMap1(int pos_x, int pos_y) {
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[38;2;72;124;160;48;2;70;122;158m▄\x1b[38;2;115;151;186;48;2;91;135;171m▄\x1b[38;2;97;139;175;48;2;133;162;197m▄\x1b[38;2;95;138;173;48;2;102;142;178m▄\x1b[38;2;98;139;175;48;2;181;182;220m▄\x1b[38;2;233;204;248;48;2;246;210;255m▄\x1b[48;2;246;210;255m   \x1b[38;2;192;176;215;48;2;222;195;237m▄\x1b[38;2;147;149;182;48;2;161;157;192m▄\x1b[38;2;226;198;241;48;2;156;155;190m▄\x1b[38;2;245;209;254;48;2;198;180;219m▄\x1b[38;2;246;210;255;48;2;211;186;226m▄\x1b[38;2;246;210;255;48;2;168;155;189m▄\x1b[38;2;246;210;255;48;2;155;146;177m▄\x1b[38;2;246;210;255;48;2;181;164;200m▄\x1b[38;2;246;210;255;48;2;224;194;237m▄\x1b[38;2;246;210;255;48;2;244;208;253m▄\x1b[48;2;246;210;255m           \x1b[m";
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[38;2;89;134;169;48;2;84;131;165m▄\x1b[38;2;101;143;177;48;2;93;137;171m▄\x1b[38;2;92;136;172;48;2;77;126;162m▄\x1b[38;2;120;154;188;48;2;90;135;170m▄\x1b[38;2;98;141;176;48;2;127;159;193m▄\x1b[38;2;199;188;229;48;2;191;183;225m▄\x1b[48;2;246;210;255m   \x1b[38;2;246;210;255;48;2;244;208;253m▄\x1b[38;2;246;210;255;48;2;244;209;253m▄\x1b[48;2;246;210;255m                   \x1b[m";
     deleteMapText(pos_x + 5, pos_y + 2);
-    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 }); GotoXY(pos_x + 5, pos_y + 2); cout << u8"►" << "      " << "SPACE" << "      " << u8"◄"; changeTextColor();
-
+    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 });
+    GotoXY(pos_x + 3, pos_y + 2); cout << u8"►";
+    GotoXY(pos_x + 5 + 21, pos_y + 2); cout << u8"◄";
+    GotoXY(pos_x + 3 + (24 - 5) / 2, pos_y + 2); cout << "SPACE";
+    changeTextColor();
 }
 
 
@@ -836,8 +874,11 @@ void drawMiniMap2(int pos_x, int pos_y) {
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[48;2;38;61;96m  \x1b[48;2;38;60;95m \x1b[48;2;39;60;95m \x1b[48;2;38;60;96m \x1b[48;2;39;61;95m \x1b[48;2;39;60;96m    \x1b[48;2;38;60;96m \x1b[48;2;38;60;95m  \x1b[48;2;39;60;96m     \x1b[48;2;38;60;95m   \x1b[48;2;38;61;96m         \x1b[m";
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[48;2;38;61;96m  \x1b[48;2;38;60;95m \x1b[48;2;39;60;95m \x1b[48;2;38;60;96m \x1b[48;2;39;61;95m \x1b[48;2;39;60;96m    \x1b[48;2;38;60;96m \x1b[48;2;38;60;95m  \x1b[48;2;39;60;96m     \x1b[48;2;38;60;95m   \x1b[48;2;38;61;96m         \x1b[m";
     deleteMapText(pos_x + 5, pos_y + 2);
-    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 }); GotoXY(pos_x + 5, pos_y + 2); cout << u8"►" << "      " << "HILL" << "      " << u8"◄"; changeTextColor();
-
+    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 });
+    GotoXY(pos_x + 3, pos_y + 2); cout << u8"►";
+    GotoXY(pos_x + 5 + 21, pos_y + 2); cout << u8"◄";
+    GotoXY(pos_x + 3 + (24 - 4) / 2, pos_y + 2); cout << "HILL";
+    changeTextColor();
 }
 
 
@@ -852,10 +893,12 @@ void drawMiniMap3(int pos_x, int pos_y) {
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[38;2;167;194;210;48;2;127;92;35m▄\x1b[38;2;222;115;25;48;2;206;108;26m▄\x1b[38;2;167;194;210;48;2;167;90;28m▄\x1b[38;2;160;211;213;48;2;92;182;53m▄\x1b[38;2;170;214;243;48;2;142;195;202m▄\x1b[48;2;170;214;243m                     \x1b[38;2;170;214;243;48;2;149;208;202m▄\x1b[38;2;150;201;214;48;2;39;129;59m▄\x1b[38;2;172;94;30;48;2;143;102;36m▄\x1b[38;2;150;201;214;48;2;47;142;58m▄\x1b[m";
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[38;2;110;66;26;48;2;116;80;46m▄\x1b[38;2;114;68;26;48;2;222;115;25m▄\x1b[38;2;110;66;26;48;2;116;80;46m▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\x1b[38;2;110;66;26;48;2;116;69;26m▄\x1b[38;2;110;66;26;48;2;116;80;46m▄\x1b[m";
     deleteMapText(pos_x + 5, pos_y + 2);
-    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 }); GotoXY(pos_x + 5, pos_y + 2); cout << u8"►" << "      " << "SKY" << "      " << u8"◄"; changeTextColor();
-
+    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 });
+    GotoXY(pos_x + 3, pos_y + 2); cout << u8"►";
+    GotoXY(pos_x + 5 + 21, pos_y + 2); cout << u8"◄";
+    GotoXY(pos_x + 3 + (24 - 3) / 2, pos_y + 2); cout << "SKY";
+    changeTextColor();
 }
-
 
 void drawMiniMap4(int pos_x, int pos_y) {
     SetConsoleOutputCP(CP_UTF8);
@@ -868,7 +911,11 @@ void drawMiniMap4(int pos_x, int pos_y) {
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[48;2;202;132;97m               \x1b[38;2;197;128;94;48;2;202;132;97m▄\x1b[38;2;187;122;92;48;2;202;132;97m▄\x1b[38;2;173;115;88;48;2;202;132;97m▄\x1b[38;2;200;130;96;48;2;202;132;97m▄\x1b[48;2;202;132;97m    \x1b[38;2;202;132;97;48;2;204;136;102m▄\x1b[38;2;204;139;110;48;2;225;173;146m▄\x1b[38;2;229;182;156;48;2;233;188;164m▄\x1b[38;2;216;165;141;48;2;232;188;163m▄\x1b[38;2;207;144;114;48;2;213;158;131m▄\x1b[38;2;201;131;96;48;2;200;131;96m▄\x1b[48;2;202;132;97m \x1b[m";
     GotoXY(pos_x, pos_y++); cout << u8"\x1b[48;2;202;132;97m            \x1b[38;2;191;123;91;48;2;202;132;97m▄\x1b[38;2;171;117;91;48;2;201;131;96m▄\x1b[38;2;176;136;114;48;2;197;128;94m▄\x1b[38;2;157;115;94;48;2;179;114;84m▄\x1b[38;2;143;107;90;48;2;150;110;91m▄\x1b[38;2;174;111;82;48;2;167;116;93m▄\x1b[38;2;201;132;97;48;2;199;130;95m▄\x1b[48;2;202;132;97m      \x1b[38;2;202;132;97;48;2;203;133;101m▄\x1b[38;2;202;132;97;48;2;200;130;98m▄\x1b[48;2;202;132;97m  \x1b[38;2;202;132;98;48;2;202;132;97m▄\x1b[m";
     deleteMapText(pos_x + 5, pos_y + 2);
-    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 }); GotoXY(pos_x + 5, pos_y + 2); cout << u8"►" << "      " << "UNDERGROUND" << "      " << u8"◄"; changeTextColor();
+    changeTextColor({ 255, 24, 20 }, { 249, 232, 217 });
+    GotoXY(pos_x + 3, pos_y + 2); cout << u8"►";
+    GotoXY(pos_x + 5 + 21, pos_y + 2); cout << u8"◄";
+    GotoXY(pos_x + 3 + (24 - 11) / 2, pos_y + 2); cout << "UNDERGROUND";
+    changeTextColor();
 
 }
 
@@ -966,6 +1013,68 @@ void drawDemoSnake(int pos_x, int pos_y, RGBCOLOR _fgcolor, RGBCOLOR _bgcolor)
     cout << demoSnake[0];
     changeTextColor(_fgcolor, _bgcolor);
     for (size_t i = 1; i < len; ++i) cout << demoSnake[i];
+    changeTextColor();
+}
+
+void draw_Tutorial(int pos_x, int pos_y, std::string pic)
+{
+
+    SetConsoleOutputCP(CP_UTF8);
+    GotoXY(pos_x, pos_y);
+    for (auto i : pic) {
+        switch (i)
+        {
+        case '-':
+            changeTextColor({ 249, 232, 217 });
+            break;
+        default:
+            text_color(BG_COLOR, colorCode::WHITE);
+            break;
+        }
+        if (i > 32) cout << u8"\u2588";
+        else cout << i;
+    }
+
+    changeTextColor({ 0, 0, 0 }, { 249, 232, 217 });
+
+    GotoXY((120 - 63) / 2, pos_y + 1); cout << u8"████████╗██╗   ██╗████████╗ ██████╗ ██████╗ ██╗ █████╗ ██╗";
+    GotoXY((120 - 63) / 2, pos_y + 2); cout << u8"╚══██╔══╝██║   ██║╚══██╔══╝██╔═══██╗██╔══██╗██║██╔══██╗██║";
+    GotoXY((120 - 63) / 2, pos_y + 3); cout << u8"   ██║   ██║   ██║   ██║   ██║   ██║██████╔╝██║███████║██║";
+    GotoXY((120 - 63) / 2, pos_y + 4); cout << u8"   ██║   ██║   ██║   ██║   ██║   ██║██╔══██╗██║██╔══██║██║";
+    GotoXY((120 - 63) / 2, pos_y + 5); cout << u8"   ██║   ╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║██║  ██║███████╗";
+    GotoXY((120 - 63) / 2, pos_y + 6); cout << u8"   ╚═╝    ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝";
+
+
+    changeTextColor({ 0, 0, 0 }, { 249, 232, 217 });
+    GotoXY(pos_x + 20, pos_y + 9); cout << "HOW TO PLAY";
+    GotoXY(pos_x + 10, pos_y + 11); cout << "The player controls the snake to";
+    GotoXY(pos_x + 10, pos_y + 12); cout << "move around the game screen to eat";
+    GotoXY(pos_x + 10, pos_y + 13); cout << "food. Obstacles will appear forcing";
+    GotoXY(pos_x + 10, pos_y + 14); cout << "the player to move to avoid. The";
+    GotoXY(pos_x + 10, pos_y + 15); cout << "game includes "; changeTextColor({ 255,0,0 }, { 249, 232, 217 }), cout << "4 levels"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); cout << ", each level";
+    GotoXY(pos_x + 10, pos_y + 16); cout << "needs the player to eat enough 4";
+    GotoXY(pos_x + 10, pos_y + 17); cout << "foods to pass the next level, there";
+    GotoXY(pos_x + 10, pos_y + 18); cout << "will be "; changeTextColor({ 255,0,0 }, { 249, 232, 217 }), cout << "bonus food "; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); cout << "to increase the";
+    GotoXY(pos_x + 10, pos_y + 19); cout << "score and there are some "; changeTextColor({ 255,0,0 }, { 249, 232, 217 }), cout << "teleport "; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 });
+    GotoXY(pos_x + 10, pos_y + 20); changeTextColor({ 255,0,0 }, { 249, 232, 217 }), cout << "gates "; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); cout << "so the player can move in to";
+    GotoXY(pos_x + 10, pos_y + 21); cout << "go to the another location.";
+
+    GotoXY(pos_x + 90, pos_y + 9); cout << "BUTTON";
+
+    filled_rec(pos_x + 85, pos_y + 11, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 12); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "W"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 12); cout << "MOVE UP"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 14, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 15); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "S"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 15); cout << "MOVE DOWN"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 17, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 18); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "A"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 18); cout << "MOVE LEFT"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 20, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 21); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "D"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 21); cout << "MOVE RIGHT"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 23, 1, 3, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 24); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "U"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 24); cout << "PAUSE GAME"; changeTextColor();
+
+    filled_rec(pos_x + 85, pos_y + 26, 1, 4, { 63, 199, 212 }); GotoXY(pos_x + 86, pos_y + 27); changeTextColor({ 0, 0, 0 }, { 63, 199, 212 }); cout << "ESC"; changeTextColor({ 0, 0, 0 }, { 249, 232, 217 }); GotoXY(pos_x + 95, pos_y + 27); cout << "EXIT"; changeTextColor();
+
+    GotoXY(pos_x, 28); changeTextColor(TXT_RGB);
+    system("pause");
     changeTextColor();
 }
 

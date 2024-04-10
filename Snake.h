@@ -14,7 +14,7 @@
 using namespace std;
 
 // CONSTANTS
-const int MAX_SIZE_FOOD = 5;
+const int MAX_SIZE_FOOD = 4;
 const int MAX_SIZE_SNAKE = 30;
 const int MAX_SPEED = 5;
 const int MAX_SIZE_OBS = 10;
@@ -71,7 +71,8 @@ struct Player
 void StartGame(bool LoadSnake);// Function StartGame
 void LoadGame();// Function LoadGame (movement of snake using keyboard)
 void PauseGame(HANDLE t);
-void ExitGame(HANDLE t);
+//void ExitGame(HANDLE t);
+void ExitGame();
 void SaveGame(HANDLE t);
 //void LoadMap(void);
 //void ScoreGame(HANDLE t);
@@ -79,12 +80,12 @@ void StopThread();
 void ProcessPause(HANDLE t); // Function handle when pause game
 void ProcessDead(void);// Function handle when snake DEAD
 void ProcessWin(void); // Function handle when snake win
-bool ProcessExit(HANDLE t);
+bool ProcessExit();
 void ResetData(void);// Function Intialize original data
 void ResetLoadData(void);
 
 void outputInfoPlayer(Player PlayerSnake[], int id);
-void extractDataFile(Player PlayerSnake[], int i, Player &LoadPlayer);
+void extractDataFile(Player PlayerSnake[], int i, Player& LoadPlayer);
 void ExtractInfoPlayer(Player PlayerSnake[], int& id, string& namePlayer); // Save information of player into struct Player
 void ThreadFunction(void);// Subfunction for thread
 
