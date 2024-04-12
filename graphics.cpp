@@ -135,6 +135,16 @@ void filled_rec(unsigned int x_pos, unsigned int y_pos, unsigned int height, uns
 	changeTextColor();
 }
 
+void drawLine(unsigned int x_pos, unsigned int y_pos, unsigned int length, RGBCOLOR color)
+{
+	SetConsoleOutputCP(CP_UTF8);
+	GotoXY(x_pos, y_pos);
+	changeTextColor(color);
+	for (int i = 0; i < length; ++i) {
+		cout << u8"\u2550";
+	}
+}
+
 void highlightedBox(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color)
 {
 	SetConsoleOutputCP(CP_UTF8);

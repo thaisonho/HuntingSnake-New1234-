@@ -156,12 +156,6 @@
     <Text Include="MAP4.txt" />
     <Text Include="MAP3.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Media Include="beep.wav" />
-    <Media Include="dead.wav" />
-    <Media Include="eat.wav" />
-    <Media Include="gate.wav" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,7 +1,4 @@
 #include "GenerateMap.h"
-#include "Snake.h"
-#include "arts.h";
-#include "MapTracking.h"
 #include "Variables.h"
 
 // Declare telegate variables

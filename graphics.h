@@ -45,6 +45,7 @@ void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height,
 void filled_rec(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color);
 void filled_rec(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, std::string text, RGBCOLOR txtColor);
 
+void drawLine(unsigned int x_pos, unsigned int y_pos, unsigned int length, RGBCOLOR color);
 
 // to higlight the button in rectangle shape, user can choose color base on the need
 void highlightedBox(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color);

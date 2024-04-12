@@ -6,6 +6,10 @@
 #include <windows.h>
 #include <string>
 #include <thread>
+#include <assert.h>
+#include <fstream>
+#include "ConsoleWindow.h"
+#include "graphics.h"
 
 #pragma comment(lib, "winmm.lib")
 // Statements to random number in range [l, r] 
@@ -71,11 +75,8 @@ struct Player
 void StartGame(bool LoadSnake);// Function StartGame
 void LoadGame();// Function LoadGame (movement of snake using keyboard)
 void PauseGame(HANDLE t);
-//void ExitGame(HANDLE t);
 void ExitGame();
 void SaveGame(HANDLE t);
-//void LoadMap(void);
-//void ScoreGame(HANDLE t);
 void StopThread();
 void ProcessPause(HANDLE t); // Function handle when pause game
 void ProcessDead(void);// Function handle when snake DEAD

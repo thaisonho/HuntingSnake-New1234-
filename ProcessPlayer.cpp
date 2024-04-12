@@ -2,8 +2,6 @@
 #include "ConsoleWindow.h"
 #include "graphics.h"
 #include "arts.h"
-#include <fstream>
-#include <iostream>
 
 using namespace std;
 
@@ -12,38 +10,6 @@ int LoadOption = 1;
 string st[100];
 bool LoadSnake = false;
 
-void NewGame(Player PlayerSnake[], int& id, string& namePlayer)
-{
-	system("cls");
-
-	draw_User_Name(0, 0, User_Name);
-
-	changeTextColor({ 245, 245, 245 }, { 88, 98, 88 });
-
-	GotoXY(51, 12); cout << "NAME PLAYER: ";
-
-	getline(cin, namePlayer); changeTextColor();
-
-	while (true)
-	{
-		if (isValidName(PlayerSnake, id, namePlayer) == true && namePlayer.size() <= 10 && namePlayer != "")
-		{
-			if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
-			break;
-		}
-
-		notValid();
-		Sleep(1500);
-		refill();
-
-		changeTextColor({ 245, 245, 245 }, { 88, 98, 88 });
-		getline(cin, namePlayer);
-		changeTextColor();
-	}
-
-	id++;
-	PlayerSnake[id].Name = namePlayer;
-}
 
 bool isValidName(Player PlayerSnake[], int id, string& st)
 {
@@ -62,36 +28,46 @@ int LoadGameBoard(Player PlayerSnake[], int id, Player& LoadPlayer)
 	SetConsoleCP(CP_UTF8);
 	system("cls");
 
-	draw_rectangle((120 - 100) / 2, 3, 22, 100, TXT_RGB);
 	int x = 10, y = y_pos - 2;
 	int xmax = WIDTH_GAME + 15;
 	int ymax = HEIGHT_BOARD;
+	int bannerPosX = (120 - 49) / 2, bannerPosY = 2;
+	int distance = (xmax - x) / 3;
+	int x1 = x + 13;
+	int y1 = y + 3;
+	int y2 = y1, y3 = y1;
+	int x2 = x1 + distance;
+	int x3 = x2 + distance;
+	string name = "", prev_name = "";
+	int score = 0, prev_score = 0, level = 1, prev_level = 1;
+	int x_menu = (120 - 100) / 2 + 5,
+		y_menu = 10,
+		rec_width = 90,
+		rec_height = 0;
+	// define variables use for navigate through the menu
+	int x_pointer = x_menu, y_pointer = y_menu;
+	int x_prev = x_menu, y_prev = y_menu;
+	bool check = true, isEnter = false;
+
+	draw_rectangle((120 - 100) / 2, 3, 22, 100, TXT_RGB);
 
 	GotoXY((120 - 100) / 2, 27);				cout << "Press <Enter> to continue playing";
 	GotoXY((120 - 100) / 2 + (100 - 29), 27);	cout << "Press <Esc> to return to menu";
 
-	int bannerPosX = (120 - 49) / 2, bannerPosY = 2;
 	changeTextColor({ 238, 114, 20 });
 	GotoXY(bannerPosX, bannerPosY++);	cout << u8"░▒█▀▀▀█░█▀▀▄░▄░░░▄░█▀▀░█▀▄░░░▒█▀▀█░█▀▀▄░█▀▄▀█░█▀▀\n";
 	GotoXY(bannerPosX, bannerPosY++);	cout << u8"░░▀▀▀▄▄░█▄▄█░░█▄█░░█▀▀░█░█░░░▒█░▄▄░█▄▄█░█░▀░█░█▀▀\n";
 	GotoXY(bannerPosX, bannerPosY++);	cout << u8"░▒█▄▄▄█░▀░░▀░░░▀░░░▀▀▀░▀▀░░░░▒█▄▄▀░▀░░▀░▀░░▒▀░▀▀▀\n";
 	changeTextColor();
 
-	int distance = (xmax - x) / 3;
-
-	int x1 = x + 13;
-	int y1 = y + 3;
-	int y2 = y1, y3 = y1;
 
 	changeTextColor(TXT_RGB);
 	GotoXY(x1, y1++);	cout << u8"░█▄░█▒▄▀▄░█▄▒▄█▒██▀";
 	GotoXY(x1, y1++);	cout << u8"░█▒▀█░█▀█░█▒▀▒█░█▄▄";
 
-	int x2 = x1 + distance;
 	GotoXY(x2, y2++);	cout << u8"░▄▀▀░▄▀▀░▄▀▄▒█▀▄▒██▀";
 	GotoXY(x2, y2++);	cout << u8"▒▄██░▀▄▄░▀▄▀░█▀▄░█▄▄";
 
-	int x3 = x2 + distance;
 	GotoXY(x3, y3++);	cout << u8"░█▒░▒██▀░█▒█▒██▀░█▒░";
 	GotoXY(x3, y3++);	cout << u8"▒█▄▄░█▄▄░▀▄▀░█▄▄▒█▄▄";
 	changeTextColor();
@@ -101,12 +77,6 @@ int LoadGameBoard(Player PlayerSnake[], int id, Player& LoadPlayer)
 	INP >> id;
 	INP.close();
 
-	string name = "", prev_name = "";
-	int score = 0, prev_score = 0, level = 1, prev_level = 1;
-	int x_menu = (120 - 100) / 2 + 5,
-		y_menu = 10,
-		rec_width = 90,
-		rec_height = 0;
 
 	for (int i = 1; i <= 7 || i <= id; ++i) {
 		GotoXY(x_menu + 8, y_menu + 2 * (i - 1));
@@ -124,10 +94,6 @@ int LoadGameBoard(Player PlayerSnake[], int id, Player& LoadPlayer)
 		changeTextColor();
 	}
 
-	// define variables use for navigate through the menu
-	int x_pointer = x_menu, y_pointer = y_menu;
-	int x_prev = x_menu, y_prev = y_menu;
-	bool check = true, isEnter = false;
 
 	while (isEnter == false) {
 		GotoXY(x_pointer, y_pointer);
@@ -278,4 +244,37 @@ void refill() {
 	GotoXY(64, 12);
 	changeTextColor({ 88, 98, 88 }, { 88, 98, 88 }); cout << "                        "; changeTextColor();
 	GotoXY(64, 12);
+}
+
+void NewGame(Player PlayerSnake[], int& id, string& namePlayer)
+{
+	system("cls");
+
+	draw_User_Name(0, 0, User_Name);
+
+	changeTextColor({ 245, 245, 245 }, { 88, 98, 88 });
+
+	GotoXY(51, 12); cout << "NAME PLAYER: ";
+
+	getline(cin, namePlayer); changeTextColor();
+
+	while (true)
+	{
+		if (isValidName(PlayerSnake, id, namePlayer) == true && namePlayer.size() <= 10 && namePlayer != "")
+		{
+			if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			break;
+		}
+
+		notValid();
+		Sleep(1500);
+		refill();
+
+		changeTextColor({ 245, 245, 245 }, { 88, 98, 88 });
+		getline(cin, namePlayer);
+		changeTextColor();
+	}
+
+	id++;
+	PlayerSnake[id].Name = namePlayer;
 }

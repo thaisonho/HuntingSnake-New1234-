@@ -1,7 +1,9 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
+#include <iostream>
 #include "ConsoleWindow.h"
+#include "graphics.h"
 #define FADED_TXT_RGB { 179, 185, 161 }
 
 // DONE MAP 1

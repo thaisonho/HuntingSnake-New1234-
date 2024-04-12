@@ -1,5 +1,4 @@
 ﻿#include "ConsoleWindow.h"
-#include "snake.h"
 #include "arts.h"
 #include "ProcessPlayer.h"
 #include "ScoreList.h"
@@ -12,13 +11,14 @@ Player LoadPlayer1;
 bool checkMusicEffect = true;
 int map = 1;
 
+
 /*========== SNAKE COLOR ==========*/
 
 RGBCOLOR
 DEFAULT1_FG = { 0, 255, 0 },
-DEFAULT2_FG = { 249, 232, 217 }, DEFAULT2_BG = { 82, 120, 83 },
-DEFAULT3_FG = { 249, 232, 217 }, DEFAULT3_BG = { 238, 114, 20 },
-DEFAULT4_FG = { 82, 120, 83 }, DEFAULT4_BG = { 247, 183, 135 };
+DEFAULT2_FG = { 249, 232, 217 },    DEFAULT2_BG = { 82, 120, 83 },
+DEFAULT3_FG = { 249, 232, 217 },    DEFAULT3_BG = { 238, 114, 20 },
+DEFAULT4_FG = { 82, 120, 83 },      DEFAULT4_BG = { 247, 183, 135 };
 
 RGBCOLOR _userChoiceFG = DEFAULT1_FG, _userChoiceBG = BG_RGB_2;
 
@@ -54,26 +54,6 @@ void GotoXY(int x, int y)
     coord.Y = y;
 
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
-
-void LoadConsole()
-{
-    ios_base::sync_with_stdio(0);
-    cin.tie(NULL); cout.tie(NULL);
-    SetWindowSize(120, 30);
-    SetScreenBufferSize(120, 30);
-
-    DisableResizeWindow();
-    DisableCtrButton(0, 0, 0);
-    ShowScrollbar(0);
-    SetConsolePosition(200, 200);
-    LockConsolePosition();
-
-    // turn off cursor blinking
-    ShowConsoleCursor(false);
-
-    setBackgroundColor(BG_RGB);
-    changeTextColor(TXT_RGB);
 }
 
 void DisableResizeWindow()
@@ -181,111 +161,303 @@ void ShowConsoleCursor(bool show)
     SetConsoleCursorInfo(out, &cursorInfo);
 }
 
-void mainMenu() {
-    int x_menu = (getTermSize().x - 20) / 2 + 22,
-        y_menu = (getTermSize().y - 4) / 2;
+void LoadConsole()
+{
+    // fasten output stream
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL); cout.tie(NULL);
 
+    SetWindowSize(120, 30);
+    SetScreenBufferSize(120, 30);
 
-    // define variables use for navigate through the menu
-MENU:
-    system("cls");
-    bool check = true, isEnter = false;
-    static int selection = 1, prev_selection = 6, next_selection = 2;
+    DisableResizeWindow();
+    DisableCtrButton(0, 0, 0);
+    ShowScrollbar(0);
+    SetConsolePosition(200, 200);
+    LockConsolePosition();
 
-    drawMenuSnake(0, 0);
-    Sleep(500);
-    drawMenu(x_menu, y_menu, selection, TXT_RGB);
-    drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
-    drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
+    // turn off cursor blinking
+    ShowConsoleCursor(false);
+
+    setBackgroundColor(BG_RGB);
+    changeTextColor(TXT_RGB);
+}
+
+unsigned int inputUnsignedNumber(int pos_x, int pos_y)
+{
+    GotoXY(pos_x, pos_y); cout << "                 ";
+    GotoXY(pos_x, pos_y);
+    unsigned int res;
+
+    while (true) {
+        ShowConsoleCursor(true);
+        changeTextColor(TXT_RGB);
+        cin >> res;
+        changeTextColor();
+
+        if (!cin.good() || res > 255) {
+            ShowConsoleCursor(false);
+            GotoXY(pos_x, pos_y);   cout << "                 ";
+            changeTextColor({ 255, 0, 0 });
+            GotoXY(pos_x, pos_y); cerr << "Please re-enter!";
+            changeTextColor();
+            Sleep(2000);
+            GotoXY(pos_x, pos_y); cout << "                 ";
+
+            cin.clear();
+            cin.ignore(STREAM_SIZE, '\n');
+
+            GotoXY(pos_x, pos_y);
+        }
+        else break;
+    }
+    ShowConsoleCursor(false);
+    return res;
+}
+
+void changeColorSubScreen()
+{
+    int colorSelection = 1;
+    int prev_selection = colorSelection;
+    bool isEnter = false, check = true, isManualColor = false;
+
+    static unsigned int
+        _manualfg_red = 0, _manualfg_green = 0, _manualfg_blue = 0,
+        _manualbg_red = 0, _manualbg_green = 0, _manualbg_blue = 0;
+
+    SetConsoleOutputCP(CP_UTF8);
+
+    // PREVIEW SECTION
+    GotoXY(56 + (60 - 8) / 2, 8);
+    changeTextColor(TXT_RGB); cout << "PREVIEW";
+    changeTextColor();
+    drawDemoSnake(56 + (60 - 9) / 2, 9, _userChoiceFG, _userChoiceBG);
+
+    drawLine(56, 11, 58, TXT_RGB);
+
+    // GIVEN COLOR SECTION
+    drawDemoSnake(56 + (60 - 23) / 2, 13, DEFAULT1_FG, BG_RGB_2);
+    drawDemoSnake(56 + (60 - 23) / 2 + 14, 13, DEFAULT2_FG, DEFAULT2_BG);
+    drawDemoSnake(56 + (60 - 23) / 2, 15, DEFAULT3_FG, DEFAULT3_BG);
+    drawDemoSnake(56 + (60 - 23) / 2 + 14, 15, DEFAULT4_FG, DEFAULT4_BG);
+    //filled_rec(55, 17, 0, 60, TXT_RGB);
+
+    // RGB SECTION
+    drawLine(56, 17, 58, TXT_RGB);
+
+    GotoXY(56 + (60 - 1) / 2, 17); cout << u8"\u2566";
+    for (int i = 0; i < 8; ++i) {
+        GotoXY(56 + (60 - 1) / 2, 18 + i);
+        cout << u8"\u2551";
+    }
+    changeTextColor();
+
+    changeTextColor(TXT_RGB);
+    GotoXY(56 + (30 - 18) / 2, 18);
+    cout << "MANUAL FOREGROUND";
+    GotoXY(86 + (30 - 18) / 2, 18);
+    cout << "MANUAL BACKGROUND";
+    changeTextColor();
+
+    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+    GotoXY(56 + 3, 20); cout << "  RED: "; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualfg_red;
+    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+    GotoXY(56 + 3, 22); cout << " GREEN:"; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualfg_green;
+    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+    GotoXY(56 + 3, 24); cout << " BLUE: "; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualfg_blue;
+    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+    GotoXY(86 + 3, 20); cout << "  RED: "; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualbg_red;
+    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+    GotoXY(86 + 3, 22); cout << " GREEN:"; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualbg_green;
+    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+    GotoXY(86 + 3, 24); cout << " BLUE: "; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualbg_blue;
+    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+    changeTextColor();
+
+    GotoXY(56 + (60 - 23) / 2 - 3, 13);
+    changeTextColor({ 238, 114, 20 });
+    cout << u8"➤";
+    changeTextColor();
+
+    GotoXY(56 + (60 - 22) / 2, 28);
+    changeTextColor(TXT_RGB);
+    cout << "Press <ESC> to go back";
+    changeTextColor();
 
     while (isEnter == false) {
-        GotoXY(x_menu, y_menu);
-
+        if (check) {
+            switch (prev_selection)
+            {
+            case 1:
+                GotoXY(56 + (60 - 23) / 2 - 3, 13);     cout << ' ';
+                break;
+            case 2:
+                GotoXY(56 + (60 - 23) / 2 + 11, 13);    cout << ' ';
+                break;
+            case 3:
+                GotoXY(56 + (60 - 23) / 2 - 3, 15);     cout << ' ';
+                break;
+            case 4:
+                GotoXY(56 + (60 - 23) / 2 + 11, 15);    cout << ' ';
+                break;
+            case 5:
+                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+                GotoXY(56 + 3, 20); cout << "  RED: ";
+                break;
+            case 6:
+                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+                GotoXY(56 + 3, 22); cout << " GREEN:";
+                break;
+            case 7:
+                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+                GotoXY(56 + 3, 24); cout << " BLUE: ";
+                break;
+            case 8:
+                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+                GotoXY(86 + 3, 20); cout << "  RED: ";
+                break;
+            case 9:
+                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+                GotoXY(86 + 3, 22); cout << " GREEN:";
+                break;
+            case 10:
+                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
+                GotoXY(86 + 3, 24); cout << " BLUE: ";
+                break;
+            }
+            changeTextColor();
+            prev_selection = colorSelection;
+            switch (colorSelection)
+            {
+            case 1:
+                changeTextColor({ 238, 114, 20 });
+                GotoXY(56 + (60 - 23) / 2 - 3, 13);     cout << u8"➤";
+                break;
+            case 2:
+                changeTextColor({ 238, 114, 20 });
+                GotoXY(56 + (60 - 23) / 2 + 11, 13);    cout << u8"➤";
+                break;
+            case 3:
+                changeTextColor({ 238, 114, 20 });
+                GotoXY(56 + (60 - 23) / 2 - 3, 15);     cout << u8"➤";
+                break;
+            case 4:
+                changeTextColor({ 238, 114, 20 });
+                GotoXY(56 + (60 - 23) / 2 + 11, 15);    cout << u8"➤";
+                break;
+            case 5:
+                changeTextColor({ 255, 255, 255 }, { 255, 0, 0 });
+                GotoXY(56 + 3, 20); cout << "  RED: ";
+                break;
+            case 6:
+                changeTextColor({ 255, 255, 255 }, { 0, 255, 0 });
+                GotoXY(56 + 3, 22); cout << " GREEN:";
+                break;
+            case 7:
+                changeTextColor({ 255, 255, 255 }, { 0, 0, 255 });
+                GotoXY(56 + 3, 24); cout << " BLUE: ";
+                break;
+            case 8:
+                changeTextColor({ 255, 255, 255 }, { 255, 0, 0 });
+                GotoXY(86 + 3, 20); cout << "  RED: ";
+                break;
+            case 9:
+                changeTextColor({ 255, 255, 255 }, { 0, 255, 0 });
+                GotoXY(86 + 3, 22); cout << " GREEN:";
+                break;
+            case 10:
+                changeTextColor({ 255, 255, 255 }, { 0, 0, 255 });
+                GotoXY(86 + 3, 24); cout << " BLUE: ";
+                break;
+            }
+            changeTextColor();
+            check = false;
+        }
         // navigate through the menu
         if (_kbhit()) { // if any key is pressed
-            if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
             // variable to receive user input
             char handle;
             handle = toupper(_getch());
             Sleep(50);
+            check = true;
 
             switch (handle)
             {
-            case 'S': case 'P': // if user pressed S or 'Arrow Down'
-                deleteArtMenu(x_menu, y_menu - 6, prev_selection);
-                deleteArtMenu(x_menu, y_menu + 6, next_selection);
-                deleteArtMenu(x_menu, y_menu, selection);
-
-                ++selection;
-                if (selection > 6) selection = 1;
-                prev_selection = selection - 1;
-                next_selection = selection + 1;
-                if (prev_selection == 0)   prev_selection = 6;
-                if (next_selection == 7)   next_selection = 1;
-
-                drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
-                drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
-                drawMenu(x_menu, y_menu, selection, TXT_RGB);
+            case 'S':
+                if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                ++colorSelection;
+                if (colorSelection > 10) colorSelection = 1;
                 break;
-            case 'W': case 'H': // if user pressed W or 'Arrow Up'
-                deleteArtMenu(x_menu, y_menu - 6, prev_selection);
-                deleteArtMenu(x_menu, y_menu + 6, next_selection);
-                deleteArtMenu(x_menu, y_menu, selection);
-
-                --selection;
-                if (selection < 1) selection = 6;
-                prev_selection = selection - 1;
-                next_selection = selection + 1;
-                if (prev_selection == 0)   prev_selection = 6;
-                if (next_selection == 7)   next_selection = 1;
-
-                drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
-                drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
-                drawMenu(x_menu, y_menu, selection, TXT_RGB);
+            case 'W': // if user pressed W or 'Arrow Up'
+                if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                check = true;
+                --colorSelection;
+                if (colorSelection < 1) colorSelection = 10;
                 break;
+
             case 13: // if user pressed 'Enter'
+                if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                switch (colorSelection)
+                {
+                case 1:
+                    _userChoiceFG = DEFAULT1_FG;
+                    _userChoiceBG = BG_RGB_2;
+                    break;
+                case 2:
+                    _userChoiceFG = DEFAULT2_FG;
+                    _userChoiceBG = DEFAULT2_BG;
+                    break;
+                case 3:
+                    _userChoiceFG = DEFAULT3_FG;
+                    _userChoiceBG = DEFAULT3_BG;
+                    break;
+                case 4:
+                    _userChoiceFG = DEFAULT4_FG;
+                    _userChoiceBG = DEFAULT4_BG;
+                    break;
+                case 5:
+                    _manualfg_red = inputUnsignedNumber(67, 20);
+                    isManualColor = true;
+                    break;
+                case 6:
+                    _manualfg_green = inputUnsignedNumber(67, 22);
+                    isManualColor = true;
+                    break;
+                case 7:
+                    _manualfg_blue = inputUnsignedNumber(67, 24);
+                    isManualColor = true;
+                    break;
+                case 8:
+                    _manualbg_red = inputUnsignedNumber(97, 20);
+                    isManualColor = true;
+                    break;
+                case 9:
+                    _manualbg_green = inputUnsignedNumber(97, 22);
+                    isManualColor = true;
+                    break;
+                case 10:
+                    _manualbg_blue = inputUnsignedNumber(97, 24);
+                    isManualColor = true;
+                    break;
+                default:
+                    break;
+                }
+                if (isManualColor) {
+                    _userChoiceFG = { _manualfg_red, _manualfg_green, _manualfg_blue };
+                    _userChoiceBG = { _manualbg_red, _manualbg_green, _manualbg_blue };
+                    isManualColor = false;
+                }
+                drawDemoSnake(56 + (60 - 9) / 2, 9, _userChoiceFG, _userChoiceBG);
+                break;
+            case 27: // <ESC>
                 isEnter = true;
+                colorSelection = -1;
                 break;
             }
         }
     }
-    switch (selection)
-    {
-    case 1:
-        if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
-        NewGame(PlayerSnake1, id, namePlayer);
-        StartGame(0);
-        LoadGame();
-        goto MENU;
-        break;
-    case 2:
-        if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
-        LoadGamePlayer(PlayerSnake1, id, LoadPlayer1);
-        goto MENU;
-        break;
-    case 3:
-        if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
-        ScoreBoard(S1, PlayerSnake1, id);
-        goto MENU;
-        break;
-    case 4:
-        if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
-        settingScreen();
-        goto MENU;
-        break;
-    case 5:
-        draw_Tutorial(0, 0, Tutorial);
-        goto MENU;
-        break;
-    case 6:
-        /*ExitGame(handle_thread_obj);*/
-        if (ProcessExit()) {
-            ExitGame();
-        }
-        goto MENU;
-        break;
-    }
-    GotoXY(0, 0);
+    GotoXY(56 + (60 - 22) / 2, 28);
+    cout << "                      ";
 }
 
 void settingScreen()
@@ -663,285 +835,108 @@ void settingScreen()
     }
 }
 
-void changeColorSubScreen()
-{
-    int colorSelection = 1;
-    int prev_selection = colorSelection;
-    bool isEnter = false, check = true, isManualColor = false;
+void mainMenu() {
+    int x_menu = (getTermSize().x - 20) / 2 + 22,
+        y_menu = (getTermSize().y - 4) / 2;
 
-    static unsigned int
-        _manualfg_red = 0, _manualfg_green = 0, _manualfg_blue = 0,
-        _manualbg_red = 0, _manualbg_green = 0, _manualbg_blue = 0;
 
-    SetConsoleOutputCP(CP_UTF8);
-    // PREVIEW SECTION
-    GotoXY(56 + (60 - 8) / 2, 8);
-    changeTextColor(TXT_RGB); cout << "PREVIEW";
-    changeTextColor();
-    drawDemoSnake(56 + (60 - 9) / 2, 9, _userChoiceFG, _userChoiceBG);
+    // define variables use for navigate through the menu
+MENU:
+    system("cls");
+    bool check = true, isEnter = false;
+    static int selection = 1, prev_selection = 6, next_selection = 2;
 
-    changeTextColor(TXT_RGB);
-    for (int i = 0; i < 58; ++i) {
-        GotoXY(56 + i, 11);
-        cout << u8"\u2550";
-    }
-    changeTextColor();
-
-    // GIVEN COLOR SECTION
-    drawDemoSnake(56 + (60 - 23) / 2, 13, DEFAULT1_FG, BG_RGB_2);
-    drawDemoSnake(56 + (60 - 23) / 2 + 14, 13, DEFAULT2_FG, DEFAULT2_BG);
-    drawDemoSnake(56 + (60 - 23) / 2, 15, DEFAULT3_FG, DEFAULT3_BG);
-    drawDemoSnake(56 + (60 - 23) / 2 + 14, 15, DEFAULT4_FG, DEFAULT4_BG);
-    //filled_rec(55, 17, 0, 60, TXT_RGB);
-
-    // RGB SECTION
-    changeTextColor(TXT_RGB);
-    for (int i = 0; i < 58; ++i) {
-        GotoXY(56 + i, 17);
-        cout << u8"\u2550";
-    }
-    GotoXY(56 + (60 - 1) / 2, 17); cout << u8"\u2566";
-    for (int i = 0; i < 8; ++i) {
-        GotoXY(56 + (60 - 1) / 2, 18 + i);
-        cout << u8"\u2551";
-    }
-    changeTextColor();
-
-    changeTextColor(TXT_RGB);
-    GotoXY(56 + (30 - 18) / 2, 18);
-    cout << "MANUAL FOREGROUND";
-    GotoXY(86 + (30 - 18) / 2, 18);
-    cout << "MANUAL BACKGROUND";
-    changeTextColor();
-
-    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-    GotoXY(56 + 3, 20); cout << "  RED: "; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualfg_red;
-    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-    GotoXY(56 + 3, 22); cout << " GREEN:"; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualfg_green;
-    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-    GotoXY(56 + 3, 24); cout << " BLUE: "; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualfg_blue;
-    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-    GotoXY(86 + 3, 20); cout << "  RED: "; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualbg_red;
-    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-    GotoXY(86 + 3, 22); cout << " GREEN:"; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualbg_green;
-    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-    GotoXY(86 + 3, 24); cout << " BLUE: "; changeTextColor(); changeTextColor(TXT_RGB); cout << ' ' << _manualbg_blue;
-    changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-    changeTextColor();
-
-    GotoXY(56 + (60 - 23) / 2 - 3, 13);
-    changeTextColor({ 238, 114, 20 });
-    cout << u8"➤";
-    changeTextColor();
-
-    GotoXY(56 + (60 - 22) / 2, 28);
-    changeTextColor(TXT_RGB);
-    cout << "Press <ESC> to go back";
-    changeTextColor();
+    drawMenuSnake(0, 0);
+    Sleep(500);
+    drawMenu(x_menu, y_menu, selection, TXT_RGB);
+    drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
+    drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
 
     while (isEnter == false) {
-        if (check) {
-            switch (prev_selection)
-            {
-            case 1:
-                GotoXY(56 + (60 - 23) / 2 - 3, 13);     cout << ' ';
-                break;
-            case 2:
-                GotoXY(56 + (60 - 23) / 2 + 11, 13);    cout << ' ';
-                break;
-            case 3:
-                GotoXY(56 + (60 - 23) / 2 - 3, 15);     cout << ' ';
-                break;
-            case 4:
-                GotoXY(56 + (60 - 23) / 2 + 11, 15);    cout << ' ';
-                break;
-            case 5:
-                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-                GotoXY(56 + 3, 20); cout << "  RED: ";
-                break;
-            case 6:
-                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-                GotoXY(56 + 3, 22); cout << " GREEN:";
-                break;
-            case 7:
-                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-                GotoXY(56 + 3, 24); cout << " BLUE: ";
-                break;
-            case 8:
-                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-                GotoXY(86 + 3, 20); cout << "  RED: ";
-                break;
-            case 9:
-                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-                GotoXY(86 + 3, 22); cout << " GREEN:";
-                break;
-            case 10:
-                changeTextColor({ 255, 255, 255 }, { 196, 196, 196 });
-                GotoXY(86 + 3, 24); cout << " BLUE: ";
-                break;
-            }
-            changeTextColor();
-            prev_selection = colorSelection;
-            switch (colorSelection)
-            {
-            case 1:
-                changeTextColor({ 238, 114, 20 });
-                GotoXY(56 + (60 - 23) / 2 - 3, 13);     cout << u8"➤";
-                break;
-            case 2:
-                changeTextColor({ 238, 114, 20 });
-                GotoXY(56 + (60 - 23) / 2 + 11, 13);    cout << u8"➤";
-                break;
-            case 3:
-                changeTextColor({ 238, 114, 20 });
-                GotoXY(56 + (60 - 23) / 2 - 3, 15);     cout << u8"➤";
-                break;
-            case 4:
-                changeTextColor({ 238, 114, 20 });
-                GotoXY(56 + (60 - 23) / 2 + 11, 15);    cout << u8"➤";
-                break;
-            case 5:
-                changeTextColor({ 255, 255, 255 }, { 255, 0, 0 });
-                GotoXY(56 + 3, 20); cout << "  RED: ";
-                break;
-            case 6:
-                changeTextColor({ 255, 255, 255 }, { 0, 255, 0 });
-                GotoXY(56 + 3, 22); cout << " GREEN:";
-                break;
-            case 7:
-                changeTextColor({ 255, 255, 255 }, { 0, 0, 255 });
-                GotoXY(56 + 3, 24); cout << " BLUE: ";
-                break;
-            case 8:
-                changeTextColor({ 255, 255, 255 }, { 255, 0, 0 });
-                GotoXY(86 + 3, 20); cout << "  RED: ";
-                break;
-            case 9:
-                changeTextColor({ 255, 255, 255 }, { 0, 255, 0 });
-                GotoXY(86 + 3, 22); cout << " GREEN:";
-                break;
-            case 10:
-                changeTextColor({ 255, 255, 255 }, { 0, 0, 255 });
-                GotoXY(86 + 3, 24); cout << " BLUE: ";
-                break;
-            }
-            changeTextColor();
-            check = false;
-        }
+        GotoXY(x_menu, y_menu);
+
         // navigate through the menu
         if (_kbhit()) { // if any key is pressed
+            if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
             // variable to receive user input
             char handle;
             handle = toupper(_getch());
             Sleep(50);
-            check = true;
 
             switch (handle)
             {
-            case 'S':
-                if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
-                ++colorSelection;
-                if (colorSelection > 10) colorSelection = 1;
-                break;
-            case 'W': // if user pressed W or 'Arrow Up'
-                if (checkMusicEffect) PlaySound(TEXT("sound/move.wav"), NULL, SND_FILENAME | SND_ASYNC);
-                check = true;
-                --colorSelection;
-                if (colorSelection < 1) colorSelection = 10;
-                break;
+            case 'S': case 'P': // if user pressed S or 'Arrow Down'
+                deleteArtMenu(x_menu, y_menu - 6, prev_selection);
+                deleteArtMenu(x_menu, y_menu + 6, next_selection);
+                deleteArtMenu(x_menu, y_menu, selection);
 
-            case 13: // if user pressed 'Enter'
-                if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
-                switch (colorSelection)
-                {
-                case 1:
-                    _userChoiceFG = DEFAULT1_FG;
-                    _userChoiceBG = BG_RGB_2;
-                    break;
-                case 2:
-                    _userChoiceFG = DEFAULT2_FG;
-                    _userChoiceBG = DEFAULT2_BG;
-                    break;
-                case 3:
-                    _userChoiceFG = DEFAULT3_FG;
-                    _userChoiceBG = DEFAULT3_BG;
-                    break;
-                case 4:
-                    _userChoiceFG = DEFAULT4_FG;
-                    _userChoiceBG = DEFAULT4_BG;
-                    break;
-                case 5:
-                    _manualfg_red = inputUnsignedNumber(67, 20);
-                    isManualColor = true;
-                    break;
-                case 6:
-                    _manualfg_green = inputUnsignedNumber(67, 22);
-                    isManualColor = true;
-                    break;
-                case 7:
-                    _manualfg_blue = inputUnsignedNumber(67, 24);
-                    isManualColor = true;
-                    break;
-                case 8:
-                    _manualbg_red = inputUnsignedNumber(97, 20);
-                    isManualColor = true;
-                    break;
-                case 9:
-                    _manualbg_green = inputUnsignedNumber(97, 22);
-                    isManualColor = true;
-                    break;
-                case 10:
-                    _manualbg_blue = inputUnsignedNumber(97, 24);
-                    isManualColor = true;
-                    break;
-                default:
-                    break;
-                }
-                if (isManualColor) {
-                    _userChoiceFG = { _manualfg_red, _manualfg_green, _manualfg_blue };
-                    _userChoiceBG = { _manualbg_red, _manualbg_green, _manualbg_blue };
-                    isManualColor = false;
-                }
-                drawDemoSnake(56 + (60 - 9) / 2, 9, _userChoiceFG, _userChoiceBG);
+                ++selection;
+                if (selection > 6) selection = 1;
+                prev_selection = selection - 1;
+                next_selection = selection + 1;
+                if (prev_selection == 0)   prev_selection = 6;
+                if (next_selection == 7)   next_selection = 1;
+
+                drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
+                drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
+                drawMenu(x_menu, y_menu, selection, TXT_RGB);
                 break;
-            case 27: // <ESC>
+            case 'W': case 'H': // if user pressed W or 'Arrow Up'
+                deleteArtMenu(x_menu, y_menu - 6, prev_selection);
+                deleteArtMenu(x_menu, y_menu + 6, next_selection);
+                deleteArtMenu(x_menu, y_menu, selection);
+
+                --selection;
+                if (selection < 1) selection = 6;
+                prev_selection = selection - 1;
+                next_selection = selection + 1;
+                if (prev_selection == 0)   prev_selection = 6;
+                if (next_selection == 7)   next_selection = 1;
+
+                drawMenu(x_menu, y_menu - 6, prev_selection, FADED_TXT_RGB);
+                drawMenu(x_menu, y_menu + 6, next_selection, FADED_TXT_RGB);
+                drawMenu(x_menu, y_menu, selection, TXT_RGB);
+                break;
+            case 13: // if user pressed 'Enter'
                 isEnter = true;
-                colorSelection = -1;
                 break;
             }
         }
     }
-    GotoXY(56 + (60 - 22) / 2, 28);
-    cout << "                      ";
-}
-
-unsigned int inputUnsignedNumber(int pos_x, int pos_y)
-{
-    GotoXY(pos_x, pos_y); cout << "                 ";
-    GotoXY(pos_x, pos_y);
-    unsigned int res;
-    while (true) {
-        ShowConsoleCursor(true);
-        changeTextColor(TXT_RGB);
-        cin >> res;
-        changeTextColor();
-
-        if (!cin.good() || res > 255) {
-            ShowConsoleCursor(false);
-            GotoXY(pos_x, pos_y);   cout << "                 ";
-            changeTextColor({ 255, 0, 0 });
-            GotoXY(pos_x, pos_y); cerr << "Please re-enter!";
-            changeTextColor();
-            Sleep(2000);
-            GotoXY(pos_x, pos_y); cout << "                 ";
-
-            cin.clear();
-            cin.ignore(STREAM_SIZE, '\n');
-
-            GotoXY(pos_x, pos_y);
+    switch (selection)
+    {
+    case 1:
+        if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        NewGame(PlayerSnake1, id, namePlayer);
+        StartGame(0);
+        LoadGame();
+        goto MENU;
+        break;
+    case 2:
+        if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        LoadGamePlayer(PlayerSnake1, id, LoadPlayer1);
+        goto MENU;
+        break;
+    case 3:
+        if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        ScoreBoard(S1, PlayerSnake1, id);
+        goto MENU;
+        break;
+    case 4:
+        if (checkMusicEffect) PlaySound(TEXT("sound/click.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        settingScreen();
+        goto MENU;
+        break;
+    case 5:
+        draw_Tutorial(0, 0, Tutorial);
+        goto MENU;
+        break;
+    case 6:
+        if (ProcessExit()) {
+            ExitGame();
         }
-        else break;
+        goto MENU;
+        break;
     }
-    ShowConsoleCursor(false);
-    return res;
+    GotoXY(0, 0);
 }

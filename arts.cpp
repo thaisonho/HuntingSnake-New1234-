@@ -1,7 +1,4 @@
 ﻿#include "arts.h"
-#include "ConsoleWindow.h"
-#include <iostream>
-#include "graphics.h"
 #include "Variables.h"
 
 

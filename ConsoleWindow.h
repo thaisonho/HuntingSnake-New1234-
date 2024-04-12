@@ -13,6 +13,8 @@
 #define TXT_RGB {82, 120, 83}
 const long nScreenWidth = ::GetSystemMetrics(SM_CXSCREEN);
 const long nScreenHeight = ::GetSystemMetrics(SM_CYSCREEN);
+
+// coudn't use numeric_limits<T>::max() so manually set it here
 constexpr long long STREAM_SIZE = 9223372036854775807LL;
 
 
@@ -29,7 +31,6 @@ void text_color(int background_color, int text_color);
 
 void GotoXY(int x, int y);
 
-void LoadConsole();
 void DisableResizeWindow();
 void DisableCtrButton(bool Close, bool Min, bool Max);
 void ShowScrollbar(BOOL Show);
@@ -39,8 +40,9 @@ void SetWindowSize(SHORT width, SHORT height);
 void SetScreenBufferSize(SHORT width, SHORT height);
 void MaximizeConsoleWindow();
 void ShowConsoleCursor(bool show); // show/unshow the cursor of the terminal
-
-void mainMenu(); // main menu of the program
-void settingScreen();
-void changeColorSubScreen();
+void LoadConsole();
 unsigned int inputUnsignedNumber(int pos_x, int pos_y);
+
+void changeColorSubScreen();
+void settingScreen();
+void mainMenu(); // main menu of the program

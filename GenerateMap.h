@@ -1,7 +1,12 @@
 #pragma once
-#include "ConsoleWindow.h"
 #include <fstream>
-#define _obs_Color {0, 0, 0}
+#include "ConsoleWindow.h"
+#include "Snake.h"
+#include "arts.h"
+#include "MapTracking.h"
+
+// Obstacle color
+#define _obs_Color TXT_RGB
 
 /*________________________________________________MAP 2___________________________________________________*/
 // Initialize obstacle for level 3
