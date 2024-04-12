@@ -1,16 +1,15 @@
 #include "Snake.h"
 #include "ConsoleWindow.h"
-#include "GameMatch.h"
-#include "GenerateMap.h"
 #include "graphics.h"
 #include "arts.h"
 #include "ProcessPlayer.h"
 #include "ScoreList.h"
+#include "Variables.h"
+#include "MapTracking.h"
+#include "GenerateMap.h"
 #include <assert.h>
 #include <conio.h>
 #include <fstream>
-#include "MapTracking.h"
-#include "Variables.h"
 
 
 using namespace std;

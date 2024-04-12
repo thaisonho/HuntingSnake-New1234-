@@ -115,7 +115,6 @@ B+++++++++++++++++++oooWoWoWWPoooPoPoPooWooWWWooooo+++++++++++++++++++++++++++++
 BBBBBBBBBBBBBBBB+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB)";
 
 
-// DONE INFOR BOARD SIZE
 
 const std::string infor_Board = R"(00-------------------------------0
 B-------------------------------B
@@ -142,15 +141,6 @@ WI******************************W
 W****TTTT**TTTT*****************W
 W**********************I********W)";
 
-// DONE LEVEL BOARD SIZE
-const std::string levelBoard = R"(
-222555555222222222222222222222222
-255555555545222222222222222222222
-555222222222222222222222222222222
-555222222225522222222222222222222
-555222555522555222222222222222222
-255225555552255222222222222222222
-255555522555552222222222222222222)";
 
 
 const std::string snakeWIN = R"(00000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -292,15 +282,35 @@ const std::string Tutorial = R"(const std::string User_Name = R"(
 ------------------------------------------------------------------------------------------------------------------------)";
 
 
+
+
+/*-----------DRAW ART IN MENU INTERFACE-----------*/
+void drawMenu(int pos_x, int pos_y, int option, RGBCOLOR color);
+
+void drawExitScreen(int pos_x, int pos_y);
+
+void draw_Tutorial(int pos_x, int pos_y, std::string pic);
+
+void drawStage();
+
+void drawMedal(int pos_x, int pos_y, int option);
+
 void drawMenuSnake(int pos_x, int pos_y);
 
-void drawMAP1(int pos_x, int pos_y, std::string pic);
 
-void drawMAP2(int pos_x, int pos_y, std::string pic);
 
-void drawMAP3(int pos_x, int pos_y, std::string pic);
+/*-----------DRAW ART IN SETTING INTERFACE-----------*/
 
-void drawMAP4(int pos_x, int pos_y, std::string pic);
+void drawAppearanceIcon(int pos_x, int pos_y, bool option);
+
+void drawSoundOn(int pos_x, int pos_y, bool option, RGBCOLOR color);
+
+void drawDemoSnake(int pos_x, int pos_y, RGBCOLOR _fgcolor, RGBCOLOR _bgcolor);
+
+
+
+/*-----------DRAW ART IN GAME INTERFACE-----------*/
+void draw_User_Name(int pos_x, int pos_y, std::string pic);
 
 void draw_INFOR(int pos_x, int pos_y, std::string pic);
 
@@ -308,28 +318,13 @@ void draw_snakeWIN(int pos_x, int pos_y, std::string pic);
 
 void draw_snakeDEAD(int pos_x, int pos_y, std::string pic);
 
-void draw_User_Name(int pos_x, int pos_y, std::string pic);
-
-void Extract2DPic(char ch[100][100], std::string pic);
-
-void drawMenu(int pos_x, int pos_y, int option, RGBCOLOR color);
-
-void deleteArt(int pos_x, int pos_y, std::string pic);
-
-void deleteArtMenu(int pos_x, int pos_y, int option);
-
-void drawMedal(int pos_x, int pos_y, int option);
-
-void drawStage();
-
-void drawAppearanceIcon(int pos_x, int pos_y, bool option);
-
-void drawSoundOn(int pos_x, int pos_y, bool option, RGBCOLOR color);
+void drawNewRecord(int pos_x, int pos_y);
 
 void draw_PAUSE(int pos_x, int pos_y, std::string pic);
 
-void drawNewRecord(int pos_x, int pos_y);
 
+
+/*-----------DRAW MAP ART INCLUCDE PLAYING MAP AND OPTION IN SETTING-----------*/
 void drawMiniMapFaded1(int pos_x, int pos_y);
 
 void drawMiniMapFaded2(int pos_x, int pos_y);
@@ -346,12 +341,19 @@ void drawMiniMap3(int pos_x, int pos_y);
 
 void drawMiniMap4(int pos_x, int pos_y);
 
+void drawMAP1(int pos_x, int pos_y, std::string pic);
+
+void drawMAP2(int pos_x, int pos_y, std::string pic);
+
+void drawMAP3(int pos_x, int pos_y, std::string pic);
+
+void drawMAP4(int pos_x, int pos_y, std::string pic);
+
+
+
+/*---------------------DELETE ART---------------------*/
+void deleteArt(int pos_x, int pos_y, std::string pic);
+
+void deleteArtMenu(int pos_x, int pos_y, int option);
+
 void deleteMapText(int pos_x, int pos_y);
-
-void drawExitScreen(int pos_x, int pos_y);
-
-void drawNewRecord(int pos_x, int pos_y);
-
-void drawDemoSnake(int pos_x, int pos_y, RGBCOLOR _fgcolor, RGBCOLOR _bgcolor);
-
-void draw_Tutorial(int pos_x, int pos_y, std::string pic);
