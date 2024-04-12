@@ -71,6 +71,46 @@ void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height,
 	changeTextColor();
 }
 
+void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, RGBCOLOR _bg_text)
+{
+	SetConsoleOutputCP(CP_UTF8);
+	changeTextColor(color, _bg_text);
+	for (int ix = x_pos + 1; ix < x_pos + width; ++ix) {
+		GotoXY(ix, y_pos);
+		std::cout << u8"\u2550"; //char(205)
+		GotoXY(ix, y_pos + height);
+		std::cout << u8"\u2550"; // char(205);
+	}
+	GotoXY(x_pos, y_pos);
+	for (int iy = y_pos + 1; iy < y_pos + height; ++iy) {
+		GotoXY(x_pos, iy);
+		std::cout << u8"\u2551"; // char(186);
+		GotoXY(x_pos + width, iy);
+		std::cout << u8"\u2551"; // char(186);
+	}
+	// draw 4 corners
+	GotoXY(x_pos, y_pos);
+	std::cout << u8"\u2554"; // char(201);
+	GotoXY(x_pos + width, y_pos);
+	std::cout << u8"\u2557"; // char(187);
+	GotoXY(x_pos, y_pos + height);
+	std::cout << u8"\u255A"; // char(200);
+	GotoXY(x_pos + width, y_pos + height);
+	std::cout << u8"\u255D"; // char(188);
+	changeTextColor();
+}
+
+void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, std::string text, RGBCOLOR txtColor, RGBCOLOR _bg_text)
+{
+	SetConsoleOutputCP(CP_UTF8);
+	draw_rectangle(x_pos, y_pos, height, width, color, _bg_text);
+
+	changeTextColor(txtColor, _bg_text);
+	GotoXY(x_pos + (width - text.size()) / 2, y_pos + height / 2);
+	std::cout << text;
+	changeTextColor();
+}
+
 void filled_rec(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color)
 {
 	SetConsoleOutputCP(CP_UTF8);
@@ -469,49 +509,4 @@ int AsciiArtTextSize(std::string text) {
 	}
 	return res;
 }
-void pause_game() {
-	//system("cls");
-	//draw_matchBoard(10, 20, 10, 20, scor, le, 2, 0, "", 1);
-}
 
-
-void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, RGBCOLOR _bg_text)
-{
-	SetConsoleOutputCP(CP_UTF8);
-	changeTextColor(color, _bg_text);
-	for (int ix = x_pos + 1; ix < x_pos + width; ++ix) {
-		GotoXY(ix, y_pos);
-		std::cout << u8"\u2550"; //char(205)
-		GotoXY(ix, y_pos + height);
-		std::cout << u8"\u2550"; // char(205);
-	}
-	GotoXY(x_pos, y_pos);
-	for (int iy = y_pos + 1; iy < y_pos + height; ++iy) {
-		GotoXY(x_pos, iy);
-		std::cout << u8"\u2551"; // char(186);
-		GotoXY(x_pos + width, iy);
-		std::cout << u8"\u2551"; // char(186);
-	}
-	// draw 4 corners
-	GotoXY(x_pos, y_pos);
-	std::cout << u8"\u2554"; // char(201);
-	GotoXY(x_pos + width, y_pos);
-	std::cout << u8"\u2557"; // char(187);
-	GotoXY(x_pos, y_pos + height);
-	std::cout << u8"\u255A"; // char(200);
-	GotoXY(x_pos + width, y_pos + height);
-	std::cout << u8"\u255D"; // char(188);
-	changeTextColor();
-}
-
-
-void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, std::string text, RGBCOLOR txtColor, RGBCOLOR _bg_text)
-{
-	SetConsoleOutputCP(CP_UTF8);
-	draw_rectangle(x_pos, y_pos, height, width, color, _bg_text);
-
-	changeTextColor(txtColor, _bg_text);
-	GotoXY(x_pos + (width - text.size()) / 2, y_pos + height / 2);
-	std::cout << text;
-	changeTextColor();
-}
