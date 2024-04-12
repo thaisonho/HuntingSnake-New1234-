@@ -1,4 +1,4 @@
-#include "graphics.h"
+#pragma once
 
 extern string namePlayer;
 

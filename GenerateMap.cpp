@@ -1,25 +1,24 @@
 #include "GenerateMap.h"
-#include "Snake.h"
-#include "arts.h";
-#include "MapTracking.h"
 #include "Variables.h"
 
-
-// ___________________________________________________________________MAP 2______________________________________________________________________
-
+// Declare telegate variables
 PAIR TELEGATE[100];
 int TELEPOS = 0;
 
-void create_obstacle_2(int x_pos, int y_pos, int height, int width, Point obs[], int& obs_nums) {
-	int dist = 10; // dist la gia tri khoang cach tu hai bien trai va phai den vi tri dat thanh vat can ngang
-	for (int i = x_pos + dist; i <= width - dist; i++) { // vat can cach bien trai va bien phai 1 khoang = dist
+/*-----------------------------------------PREPARE AND SHOW GAME INTERFACE------------------------------------------*/
 
-		// Thanh vat can ben tren
+/*________________________________________________MAP 2___________________________________________________*/
+// Initialize obstacle for level 3
+void create_obstacle_2(int x_pos, int y_pos, int height, int width, Point obs[], int& obs_nums) {
+	int dist = 10; // distance from topside to obs and obs to bottomside
+	for (int i = x_pos + dist; i <= width - dist; i++) {
+
+		// above obs
 		obs[obs_nums].x = i;
 		obs[obs_nums].y = y_pos + 6;
 		obs_nums++;
 
-		// Thanh vat can phia duoi
+		// under obs
 		obs[obs_nums].x = i;
 		obs[obs_nums].y = height - 1;
 		obs_nums++;
@@ -33,15 +32,13 @@ void play_match2(int x_pos, int y_pos, int height, int width, Point obs[], int& 
 	create_obstacle_2(x_pos, y_pos, height, width, obs, obs_nums);
 
 	// draw match board
-	//draw_matchBoard(x_pos, y_pos, height, width, SCORE, LEVEL, 2, 0, "", 1);
 	draw_matchBoard(x_pos, y_pos, height, width);
 
 	// draw obstacle for level 2
 	draw_obstacle(obs, obs_nums);
 }
 
-// ___________________________________________________________________MAP 3______________________________________________________________________
-
+/*________________________________________________MAP 3___________________________________________________*/
 // Initialize obstacle for level 3
 void create_obstacle_3(int x_pos, int y_pos, int height, int width, Point obs[], int& obs_nums) {
 
@@ -56,16 +53,14 @@ void create_obstacle_3(int x_pos, int y_pos, int height, int width, Point obs[],
 		obs_nums++;
 	}
 
-	// Them hai thanh vat can nam dung ben trai va ben phai
+	// add two obs in leftside and rightside
 	for (int j = y_pos + 10; j <= height - 5; j++) {
 
-		// Vi vat can nam dung nen thay doi gia tri y va giu nguyen gia tri x cua tung toa do {x,y}
-
-		// Phan vat can phai tren trai
+		// leftside
 		obs[obs_nums].x = x_pos + 2 * dist; // vat can dung cach 2 bien mot gia tri la 2*dist
 		obs[obs_nums].y = j;
 		obs_nums++;
-		// Phan vat can phia ben phai
+		// rightside
 		obs[obs_nums].x = width - 2 * dist;
 		obs[obs_nums].y = j;
 		obs_nums++;
@@ -79,17 +74,14 @@ void play_match3(int x_pos, int y_pos, int height, int width, Point obs[], int& 
 	create_obstacle_3(x_pos, y_pos, height, width, obs, obs_nums);
 
 	// draw matchboard
-	//draw_matchBoard(x_pos, y_pos, height, width, SCORE, LEVEL, 2, 0, "", 1);
 	draw_matchBoard(x_pos, y_pos, height, width);
 
 	// draw obstacle for level 2
 	draw_obstacle(obs, obs_nums);
 }
 
-
-
-// ___________________________________________________________________MAP 4______________________________________________________________________
-
+/*________________________________________________MAP 4___________________________________________________*/
+// Initialize obstacle for level 3
 void create_obstacle_4(int x_pos, int y_pos, int height, int width, Point obs[], int& obs_nums, Point const_obs[], int& const_obs_nums)
 {
 	int obs_length = 10; // Khai bao do dai 2 thanh vat can di chuyen la 10 don vi
@@ -100,14 +92,14 @@ void create_obstacle_4(int x_pos, int y_pos, int height, int width, Point obs[],
 		obs[obs_nums].y = i;
 		obs_nums++;
 	}
-	// Khoi tao gia tri toa do thanh vat can di chuyen tu duoi len
+	// leftside
 	for (int i = y_pos + height - obs_length - 1; i < y_pos + height - 1; i++)
 	{
 		obs[obs_nums].x = width - 20;
 		obs[obs_nums].y = i;
 		obs_nums++;
 	}
-	// Khoi tao gia tri toa do thanh vat can nam ngang co dinh
+	// rightside
 	for (int i = x_pos + width / 2 - 10; i <= x_pos + width / 2 + 10; i++) {
 		const_obs[const_obs_nums].x = i;
 		const_obs[const_obs_nums].y = 16;
@@ -122,9 +114,8 @@ void move_obs(int x_pos, int y_pos, int height, int width, Point obs[], int obs_
 	draw_obstacle(const_obs, const_obs_nums); // Thanh thanh vat can co dinh nam ngang vao trong matchboard
 	if (up)
 	{
-		// Co the hieu la lien tuc chay thay the khoang trang va duong ve vat can
+		// erase and redraw continuosly
 		GotoXY(obs[obs_nums / 2 - 1].x, obs[obs_nums / 2 - 1].y);
-		//changeTextColor({ 254, 195, 255 }); cout << u8"\u2588"; //////////
 		x = obs[obs_nums / 2 - 1].x, y = obs[obs_nums / 2 - 1].y;
 		EraseTrace(ch, x, y, map);
 		for (int i = 0; i < obs_nums / 2; i++)
@@ -181,6 +172,10 @@ void move_obs(int x_pos, int y_pos, int height, int width, Point obs[], int obs_
 	}
 }
 
+
+
+/*________________________________________________TELEPORT___________________________________________________*/
+// Initialize teleGate position
 void create_teleGate() {
 
 
@@ -210,3 +205,79 @@ void create_teleGate() {
 	}
 
 }
+
+// Generate teleGate in game interface
+void draw_teleGate()
+{
+	SetConsoleOutputCP(CP_UTF8);
+
+	changeTextColor({ 255, 0, 0 });
+	for (int i = 0; i < TELEPOS; i++) {
+		GotoXY(TELEGATE[i].in.x, TELEGATE[i].in.y);
+		cout << u8"\u2588";
+		GotoXY(TELEGATE[i].out.x, TELEGATE[i].out.y);
+		cout << u8"\u2588";
+	}
+	changeTextColor();
+}
+
+
+/*________________________________________________SHOW ART___________________________________________________*/
+// show obstacle in game interface
+void draw_obstacle(Point obs[], int obs_nums) {
+	changeTextColor(_obs_Color);
+	for (int i = 0; i < obs_nums; i++) {
+		GotoXY(obs[i].x, obs[i].y);
+		cout << u8"\u2588";
+	}
+	changeTextColor();
+}
+
+// show full art game interface
+void draw_matchBoard(int x_pos, int y_pos, int height, int width) {
+
+	switch (map)
+	{
+	case 1:
+	{
+		drawMAP1(x_pos, y_pos, MAP1);
+		break;
+	}
+	case 2:
+	{
+		drawMAP2(x_pos, y_pos, MAP2);
+		break;
+	}
+	case 3:
+	{
+		drawMAP3(x_pos, y_pos, MAP3);
+		break;
+	}
+	case 4:
+	{
+		drawMAP4(x_pos, y_pos, MAP4);
+		break;
+	}
+	}
+
+	draw_INFOR(width + 5, y_pos, infor_Board);
+
+	switch (lev)
+	{
+	case 1:
+		draw_level1();
+		break;
+	case 2:
+		draw_level2();
+		break;
+	case 3:
+		draw_level3();
+		break;
+	case 4:
+		draw_level4();
+		break;
+	}
+	create_teleGate();
+	draw_teleGate();
+}
+

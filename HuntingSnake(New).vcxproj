@@ -129,7 +129,6 @@
   <ItemGroup>
     <ClCompile Include="arts.cpp" />
     <ClCompile Include="ConsoleWindow.cpp" />
-    <ClCompile Include="GameMatch.cpp" />
     <ClCompile Include="GenerateMap.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="HuntingSnake(New).cpp" />
@@ -141,7 +140,6 @@
   <ItemGroup>
     <ClInclude Include="arts.h" />
     <ClInclude Include="ConsoleWindow.h" />
-    <ClInclude Include="GameMatch.h" />
     <ClInclude Include="GenerateMap.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="MapTracking.h" />
@@ -159,10 +157,7 @@
     <Text Include="MAP3.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="beep.wav" />
-    <Media Include="dead.wav" />
-    <Media Include="eat.wav" />
-    <Media Include="gate.wav" />
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

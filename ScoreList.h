@@ -17,8 +17,7 @@ struct ScoreList
 	string name;
 };
 
-void ScoreBoard(ScoreList S[], Player PlayerSnake[], int id);
-void ScoreGame(ScoreList S[], Player PlayerSnake[], int id);
-void SortScore(ScoreList S[], int id);
 void swap(ScoreList& a, ScoreList& b);
+void SortScore(ScoreList S[], int id);
 void ProcessHighScore();
+void ScoreBoard(ScoreList S[], Player PlayerSnake[], int id);

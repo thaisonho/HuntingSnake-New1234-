@@ -1,16 +1,11 @@
 #include "Snake.h"
-#include "ConsoleWindow.h"
-#include "GameMatch.h"
-#include "GenerateMap.h"
-#include "graphics.h"
 #include "arts.h"
 #include "ProcessPlayer.h"
 #include "ScoreList.h"
-#include <assert.h>
-#include <conio.h>
-#include <fstream>
 #include "MapTracking.h"
+#include "GenerateMap.h"
 #include "Variables.h"
+
 
 
 using namespace std;
@@ -72,6 +67,19 @@ char ch[100][100];
 
 // Global variable to store the thread handle
 HANDLE g_ThreadHandle;
+
+// Overload input/output operator for Point
+istream& operator>>(istream& inDev, Point& p)
+{
+	inDev >> p.x >> p.y;
+	return inDev;
+}
+
+ostream& operator << (ostream& outDev, Point p)
+{
+	outDev << p.x << " " << p.y << "\n";
+	return outDev;
+}
 
 // Function to set the thread handle
 void SetThreadHandle(HANDLE t) {
@@ -285,18 +293,6 @@ void SaveGame(HANDLE t)
 	system("cls");
 
 	mainMenu();
-}
-
-istream& operator>>(istream& inDev, Point& p)
-{
-	inDev >> p.x >> p.y;
-	return inDev;
-}
-
-ostream& operator << (ostream& outDev, Point p)
-{
-	outDev << p.x << " " << p.y << "\n";
-	return outDev;
 }
 
 void extractDataFile(Player PlayerSnake[], int i, Player& LoadPlayer)

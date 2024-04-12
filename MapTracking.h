@@ -1,19 +1,20 @@
+#pragma once
 #include "ConsoleWindow.h"
 #include "arts.h"
-#include "GameMatch.h"
-#include "GenerateMap.h"
 #include "graphics.h"
+#include "GenerateMap.h"
 #include "ProcessPlayer.h"
 #include "ScoreList.h"
 #include "Snake.h"
 #include "Variables.h"
 
 
-//extern int map = 3;
+
+/*--------------Extract and get the color ai particular point from txt file----------------*/
+void Extract2DPic(char chr[100][100], const string fileName);
+
+RGBCOLOR ExtractColor(char chr[100][100], int x, int y, int& MAPP);
 
 
-void Extract2DPic(char ch[100][100], std::string pic);
-
-void EraseTrace(char ch[100][100], int& x, int& y, int& map);
-
-RGBCOLOR ExtractColor(char ch[100][100], int x, int y, int& map);
+/*------------------------MAP TRACKING------------------------------*/
+void EraseTrace(char chr[100][100], int& x, int& y, int& MAPP);

@@ -40,9 +40,12 @@ inline void changeTextColor(RGBCOLOR _fg, RGBCOLOR _bg);
 // to draw a rectangle with user-choice color, text, text color
 void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color);
 void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, std::string text, RGBCOLOR txtColor);
+void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, RGBCOLOR _bg_text);
+void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, std::string text, RGBCOLOR txtColor, RGBCOLOR _bg_text);
 void filled_rec(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color);
 void filled_rec(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, std::string text, RGBCOLOR txtColor);
 
+void drawLine(unsigned int x_pos, unsigned int y_pos, unsigned int length, RGBCOLOR color);
 
 // to higlight the button in rectangle shape, user can choose color base on the need
 void highlightedBox(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color);
@@ -69,6 +72,3 @@ void draw_ButtonD();
 
 void TextToAsciiArt(int pos_x, int pos_y, std::string text, RGBCOLOR fg_color, RGBCOLOR bg_color);
 int AsciiArtTextSize(std::string text);
-void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, RGBCOLOR _bg_text);
-void draw_rectangle(unsigned int x_pos, unsigned int y_pos, unsigned int height, unsigned int width, RGBCOLOR color, std::string text, RGBCOLOR txtColor, RGBCOLOR _bg_text);
-//void draw_level();
