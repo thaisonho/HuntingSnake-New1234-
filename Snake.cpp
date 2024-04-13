@@ -196,6 +196,7 @@ void LoadGame()  // void LoadGame(int& lev)
 		GotoXY(0, i); cout << "                                                                                                                        ";
 	}
 	changeTextColor();
+	stop_thread = false;
 	return;
 }
 
@@ -931,7 +932,7 @@ void ProcessGate() // void ProcessGate(int& LEVEL)
 
 		if (Snake_Size == 0) // When all the body of snake come into Gate -> Erase Gate and move to next level
 		{
-			if (checkMusicEffect) PlaySound(TEXT("gate.wav"), NULL, SND_FILENAME | SND_ASYNC);
+			if (checkMusicEffect) PlaySound(TEXT("sound/gate.wav"), NULL, SND_FILENAME | SND_ASYNC);
 			// Erase Gate
 			EraseGate();
 			GateDraw = false;
@@ -1251,13 +1252,13 @@ void MoveUp()
 	if (Snake[0].x == Food[ID_Food].x && Snake[0].y - 1 == Food[ID_Food].y) // If move to coordinates of Food -> Eat Food
 	{
 		EatFood(1);
-		if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("sound/eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x == BonusFood[ID_BonusFood].x && Snake[0].y - 1 == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("sound/eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--) // Change the coordinates of Snake
@@ -1297,13 +1298,13 @@ void MoveDown()
 	if (Snake[0].x == Food[ID_Food].x && Snake[0].y + 1 == Food[ID_Food].y)
 	{
 		EatFood(1);
-		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("sound/eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x == BonusFood[ID_BonusFood].x && Snake[0].y + 1 == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("sound/eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--)
@@ -1343,13 +1344,13 @@ void MoveRight()
 	if (Snake[0].x + 1 == Food[ID_Food].x && Snake[0].y == Food[ID_Food].y)
 	{
 		EatFood(1);
-		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("sound/eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x + 1 == BonusFood[ID_BonusFood].x && Snake[0].y == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("sound/eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--)
@@ -1389,13 +1390,13 @@ void MoveLeft()
 	if (Snake[0].x - 1 == Food[ID_Food].x && Snake[0].y == Food[ID_Food].y)
 	{
 		EatFood(1);
-		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("sound/eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	if (Snake[0].x - 1 == BonusFood[ID_BonusFood].x && Snake[0].y == BonusFood[ID_BonusFood].y) // If move to coordinates of Bonus Food -> Eat Bonus Food
 	{
 		EatFood(2);
-		if (checkMusicEffect) PlaySound(TEXT("eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) PlaySound(TEXT("sound/eat.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	}
 
 	for (int i = Snake_Size - 2; i >= 0; i--)
@@ -1435,7 +1436,7 @@ void AnimationDead()
 {
 	for (int i = 1; i <= 3; i++) {
 		DrawSnake(MSSV);//draw 
-		if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("beep.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("sound/beep.wav"), NULL, SND_FILENAME | SND_ASYNC);
 		fflush(stdout);
 		Sleep(450);
 		EraseOldSnake();//erase
@@ -1445,6 +1446,6 @@ void AnimationDead()
 	}
 	DrawSnake(MSSV);
 	Sleep(250);
-	if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("dead.wav"), NULL, SND_FILENAME | SND_SYNC);
+	if (checkMusicEffect) if (checkMusicEffect) PlaySound(TEXT("sound/dead.wav"), NULL, SND_FILENAME | SND_SYNC);
 	EraseOldSnake();
 }
